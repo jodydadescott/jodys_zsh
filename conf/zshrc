@@ -22,7 +22,7 @@ PATH+=:${PROFILE}/scripts/Generic
 PATH+=:${PROFILE}/scripts/$(uname)
 
 # Load any file with the extension .auto
-for zsh_config in $( ls -1 ${PROFILE}/zsh/*.auto); do
+for zsh_config in $( ls -1 ${PROFILE}/conf/*.auto); do
 	# err "Loading $zsh_config"
 	source $zsh_config
 done

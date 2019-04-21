@@ -6,7 +6,7 @@
 [ -d ${HOME}/.oh-my-zsh ] || { err "Missing oh-my-zsh. Setup zsh again?"; return 0; }
 
 # ZSH Home
-ZSH_CUSTOM=${PROFILE}/zsh
+ZSH_CUSTOM=${PROFILE}/conf
 
 ### OH MY ZSH Settings 
 ZSH=~/.oh-my-zsh
