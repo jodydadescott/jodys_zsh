@@ -1,0 +1,14 @@
+#!/bin/sh
+
+REPO=jodydadescott
+IMAGE=alpine-go-buildenv
+TAG=latest
+
+main() {
+  [[ $GOPATH ]] || { err "GOPATH is NOT set"; return 2; }
+  docker run -it -v $GOPATH/src:/go/src --entrypoint /bin/sh ${REPO}/${IMAGE}:${TAG}
+}
+
+err() { echo "$@" 1>&2; }
+
+main $@

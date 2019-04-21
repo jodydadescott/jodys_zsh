@@ -1,0 +1,17 @@
+export APOCTL_NAMESPACE=/jody/v2
+
+alias ap.auth='f() {
+	export APOCTL_TOKEN=$(apoctl auth appcred --path ~/.appcred/default.json)
+	apoctl auth verify > /dev/null 2>&1
+    return $?
+};f'
+
+alias ap.auth.print='f() {
+    echo "export APOCTL_TOKEN=$APOCTL_TOKEN"
+    return 0
+};f'
+
+alias ap.auth.verify='apoctl auth verify'
+
+# Apoctl auto completion
+#. <(apoctl completion zsh)

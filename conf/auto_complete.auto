@@ -1,0 +1,18 @@
+# Have the newer files last (see first)
+zstyle ':completion:*' file-sort modification reverse
+
+# Separate man page sections.  Neat.
+zstyle ':completion:*:manuals' separate-sections true
+
+# Egomaniac!
+# zstyle ':completion:*' list-separator ''
+
+# Don't complete directory we are already in (../here)
+zstyle ':completion:*' ignore-parents parent pwd
+
+zstyle ':completion::approximate*:*' prefix-needed false
+
+# SSH Host suggestion completion
+zstyle -e ':completion::*:hosts' hosts \
+'reply=($(sed -e "/^#/d" -e "s/ .*\$//" -e "s/,/ /g" /etc/ssh_known_hosts(N) \
+~/.ssh/known_hosts(N) 2>/dev/null | xargs) $(grep \^Host ~/.ssh/config(N) | cut -f2 -d\  2>/dev/null | xargs))'

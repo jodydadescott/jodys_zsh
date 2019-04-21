@@ -1,0 +1,12 @@
+PROFILE=${PWD}
+
+ZSHRC=${HOME}/.zshrc
+[ -f $ZSHRC  ] && { mv $ZSHRC ${HOME}/._zshrc; }
+rm -rf $ZSHRC
+
+rm -rf ${HOME}/.oh-my-zsh
+git clone https://github.com/robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh;
+git clone https://github.com/zsh-users/zsh-autosuggestions.git ${HOME}/.oh-my-zsh/plugins/zsh-autosuggestions
+
+echo "PROFILE=$PROFILE" > $ZSHRC
+echo "source \${PROFILE}/conf/zshrc" >> $ZSHRC
