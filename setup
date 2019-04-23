@@ -10,3 +10,5 @@ git clone https://github.com/zsh-users/zsh-autosuggestions.git ${HOME}/.oh-my-zs
 
 echo "PROFILE=$PROFILE" > $ZSHRC
 echo "source \${PROFILE}/conf/zshrc" >> $ZSHRC
+
+[ "$(dscl . -read $HOME UserShell)" == "UserShell: /bin/zsh" ] || chsh -s /bin/zsh
