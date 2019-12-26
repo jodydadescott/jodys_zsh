@@ -1,0 +1,1 @@
+unset GREP_OPTIONS

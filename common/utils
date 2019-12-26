@@ -18,5 +18,3 @@ function is() {
 	ps -ef | grep -v grep | grep $1
    return 0
 }
-
-function err() { echo $@ >&2; }
