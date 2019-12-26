@@ -1,0 +1,30 @@
+#################################################################################
+# Sets user defined jump to directory and jumps to said directory when
+# instructed to by user. Often a user works in a given directory and requires
+# multiple shells. This allows the user to set the jump directory in one shell
+# and then issue a single command in the other shells that will cause them to
+# change directory (or jump) to the defined directory. 
+################################################################################
+
+function jump_to_dir() {
+   [ -f ${HOME}/.jumpdir ] || { err "Jump directory not set. Use jset"; return 2; }
+   dir=$(<${HOME}/.jumpdir)
+   [[ "$dir" == "$PWD" ]] && { err "Already in directory $dir"; return 0; }
+   [ -d $dir ] || { err "Jump directory is set to $dir but directory does not exist"; return 3; }
+   cd $dir
+   err "Directory changed to $PWD"
+   return 0
+}
+
+function set_jump_dir() {
+   [ -f ${HOME}/.jumpdir ] && {
+      dir=$(<${HOME}/.jumpdir)
+      [[ "$dir" == "$PWD" ]] && { err "Directory already set to $dir"; return 0; }
+   }
+   echo $PWD > ${HOME}/.jumpdir
+   err "Jump directory set to $PWD"
+   return 0
+}
+
+alias j='f() { jump_to_dir $@; };f'
+alias jset='f() { set_jump_dir $@; };f'
