@@ -1,3 +1,0 @@
-export APOCTL_NAMESPACE=/aporeto/se/v1
-export PAM_AUTH_PROVIDER="google"
-export APOCTL_API="https://api.console.aporeto.com"
