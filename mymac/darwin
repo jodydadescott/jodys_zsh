@@ -10,15 +10,15 @@
 # These are non POSIX attributes
 export COPYFILE_DISABLE=1
 
-### VMWare Fusion
-# This is the interface that we declare as our lab management network 
-export VMHYPER_INTERFACE=vmnet2
-
 # Turning off for testing 11-4-2014. Problem with "man"
 # export PAGER="/bin/sh -c \"unset PAGER;col -b -x | \
 # vim -u ~/CloudStation/profile/vim/vim_runtime/vimrcs/pager.vim -R \
 # -c 'set ft=man nomod nolist' -c 'map q :q<CR>' \
 # -c 'map <SPACE> <C-D>' -c 'map b <C-U>' \
 # -c 'nmap K :Man <C-R>=expand(\\\"<cword>\\\")<CR><CR>' -\""
+#
+
+# Color
+alias ls='ls -G'
 
 ################################################################################

@@ -1,2 +1,0 @@
-#!/bin/sh
-vncserver -geometry 1910x1070 -depth 24 -JpegQuality 100
