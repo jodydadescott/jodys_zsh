@@ -1,0 +1,2 @@
+ssh() { export APOCTL_SSH_BIN=ssh && ssh-wrapper $@; }
+scp() { export APOCTL_SSH_BIN=scp && ssh-wrapper $@; }
