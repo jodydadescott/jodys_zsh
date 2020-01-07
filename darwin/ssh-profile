@@ -1,0 +1,2 @@
+alias ap.ssh.disable="export APOCTL_PAM_DISABLE=true"
+alias ap.ssh.enable="export APOCTL_PAM_DISABLE=false"
