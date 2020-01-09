@@ -30,9 +30,9 @@ alias chistory="fc -n -l 1"
 alias chist="fc -n -l 1"
 
 # Improve autocompletion style
-zstyle ':completion:*' menu select # select completions with arrow keys
-zstyle ':completion:*' group-name '' # group results by category
-zstyle ':completion:::::' completer _expand _complete _ignored _approximate # enable approximate matches for completion
+# zstyle ':completion:*' menu select # select completions with arrow keys
+# zstyle ':completion:*' group-name '' # group results by category
+# zstyle ':completion:::::' completer _expand _complete _ignored _approximate # enable approximate matches for completion
 # Load antibody plugin manager
 source <(antibody init)
 # Plugins
