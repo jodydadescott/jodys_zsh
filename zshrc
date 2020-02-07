@@ -10,7 +10,7 @@ fi
 zmodload -i zsh/complist
 
 # Options
-setopt auto_cd # cd by typing directory name if it's not a command
+setopt auto_cd # cd by typing directory name if its not a command
 setopt auto_list # automatically list choices on ambiguous completion
 setopt auto_menu # automatically use menu completion
 setopt always_to_end # move cursor to end if word had one match
@@ -23,6 +23,8 @@ setopt interactive_comments # allow comments in interactive shells
 
 export HISTSIZE=100000
 export HISTFILESIZE=100000
+export HISTFILE=~/.zsh_history
+export SAVEHIST=100000
 
 alias history="fc -l 1"
 alias hist="fc -l 1"
@@ -67,7 +69,7 @@ SPACESHIP_CHAR_SYMBOL="➜"
 SPACESHIP_CHAR_SUFFIX=" "
 SPACESHIP_PROMPT_SEPARATE_LINE=false
 SPACESHIP_DIR_SHOW=false
-SPACESHIP_GIT_BRANCH_SHOW=true
+# SPACESHIP_G:IT_BRANCH_SHOW=true
 antibody bundle denysdovhan/spaceship-prompt
 # Open new tabs in same directory
 if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]]; then
@@ -153,7 +155,7 @@ prompt_spaceship_setup() {
 
   # Configure vcs_info helper for potential use in the future
   add-zsh-hook precmd spaceship_exec_vcs_info_precmd_hook
-  zstyle ':vcs_info:*' enable git
+  # zstyle ':vcs_info:*' enable git
   zstyle ':vcs_info:git*' formats '%b'
 
   # Expose Spaceship to environment variables
@@ -169,8 +171,6 @@ prompt_spaceship_setup() {
 
 # Pass all arguments to the spaceship_setup function
 prompt_spaceship_setup "$@"
-
-# <added by jody>
 
 # Load configs but do NOT load this
 uname=$(echo $(uname) | tr '[:upper:]' '[:lower:]')
@@ -190,5 +190,3 @@ uname=$(echo $(uname) | tr '[:upper:]' '[:lower:]')
 }
 
 export PATH
-
-# </added by jody>

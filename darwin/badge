@@ -16,7 +16,7 @@ function update_badge() {
    [[ $ITERM2_BADGE_AUTO_UPDATE -eq 0 ]] && return
    dir=$PWD
    [[ "$HOME" == ${dir:0:${#HOME}} ]] && dir="~${dir:${#HOME}}"
-   set_badge_text ${USER}:${dir}
+   set_badge_text ${dir}
 }
 
 function set_badge_text() { printf "\e]1337;SetBadgeFormat=%s\a" $(echo -n $@ | base64); }
