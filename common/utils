@@ -1,6 +1,7 @@
 alias whatismyip="curl https://ipinfo.io/ip"
 
 alias cls=clear
+alias c=clear
 
 # Copy with status bar
 alias rcp="rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --"

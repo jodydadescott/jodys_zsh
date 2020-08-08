@@ -1,8 +1,0 @@
-alias ap.auth.verify='apoctl auth verify'
-
-alias ap.help='apoctl api all | xargs -n1'
-
-# Apoctl auto completion
-which apoctl > /dev/null 2>&1 && {
-  . <(apoctl completion zsh)
-}

@@ -1,5 +1,12 @@
 err() { echo "$@" 1>&2; }
 
+addpath() {
+  for p in $@; do
+    PATH+=:${p}
+  done
+  export PATH
+}
+
 autoload -Uz compinit
 typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
 if [ $(date +'%j') != $updated_at ]; then
@@ -189,4 +196,5 @@ uname=$(echo $(uname) | tr '[:upper:]' '[:lower:]')
   done
 }
 
+PATH=/usr/local/bin:$PATH
 export PATH

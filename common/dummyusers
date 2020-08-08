@@ -1,12 +1,24 @@
-function getpass() {
+function dpass() {
    user=$1
-   [[ $user ]] || { err "Usage:getpass user"; return 2; }
+   [[ $user ]] || { err "Usage:dpass user"; return 2; }
    [ -d ${HOME}/.dummys/${user} ] || { err "User $user not found"; return 3; }
-   [ -f ${HOME}/.dummys/${user}/pass ] || { err "User exist but does not have password set"; return 3; }
-   cat ${HOME}/.dummys/${user}/pass
+   [ -f ${HOME}/.dummys/${user}/pass ] || { err "User exist but does not have password"; return 3; }
+   cat ${HOME}/.dummys/${user}/pass | pbcopy
+   err "Dummy password for user $user copied into paste buffer"
    return 0
 }
 
-function loadpass() {
-    getpass $@ | pbcopy
+function duser() {
+   user=$1
+   [[ $user ]] || { err "Usage:duser user"; return 2; }
+   [ -d ${HOME}/.dummys/${user} ] || { err "User $user not found"; return 3; }
+   [ -f ${HOME}/.dummys/${user}/username ] || { err "User exist but does not have username"; return 3; }
+   cat ${HOME}/.dummys/${user}/username | pbcopy
+   err "Dummy username for user $user copied into paste buffer"
+   return 0
+}
+
+
+function getpass() {
+  err "use dpass or duser dummy"
 }

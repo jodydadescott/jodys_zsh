@@ -9,14 +9,25 @@
 
 export ITERM2_BADGE_AUTO_UPDATE=1
 
-alias badge='f() { export ITERM2_BADGE_AUTO_UPDATE=0; set_badge_text $@; echo "Use nobadge to restore"; };f'
-alias nobadge='f() { export ITERM2_BADGE_AUTO_UPDATE=1; update_badge; };f'
+function badge() {
+  export ITERM2_BADGE_AUTO_UPDATE=0
+  set_badge_text $@
+  err "Use nobadge to restore";
+}
+
+function nobadge() {
+  export ITERM2_BADGE_AUTO_UPDATE=1
+  update_badge
+}
 
 function update_badge() {
    [[ $ITERM2_BADGE_AUTO_UPDATE -eq 0 ]] && return
-   dir=$PWD
+   local dir=$PWD
    [[ "$HOME" == ${dir:0:${#HOME}} ]] && dir="~${dir:${#HOME}}"
-   set_badge_text ${dir}
+   local msg="${dir}"
+   [[ $KUBE_CONTEXT ]] && { msg+="\nkctx:$KUBE_CONTEXT" }
+   [[ $KUBE_NS ]] && { msg+="\nkns:$KUBE_NS" }
+   set_badge_text ${msg}
 }
 
 function set_badge_text() { printf "\e]1337;SetBadgeFormat=%s\a" $(echo -n $@ | base64); }
