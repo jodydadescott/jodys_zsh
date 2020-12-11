@@ -20,17 +20,36 @@ function nobadge() {
   update_badge
 }
 
-function update_badge() {
-   [[ $ITERM2_BADGE_AUTO_UPDATE -eq 0 ]] && return
-   local dir=$PWD
-   [[ "$HOME" == ${dir:0:${#HOME}} ]] && dir="~${dir:${#HOME}}"
-   local msg="${dir}"
-   [[ $KUBE_CONTEXT ]] && { msg+="\nkctx:$KUBE_CONTEXT" }
-   [[ $KUBE_NS ]] && { msg+="\nkns:$KUBE_NS" }
-   set_badge_text ${msg}
+function kbadge() {
+  export KBADGE_ENABLED=true
+  update_badge
 }
 
-function set_badge_text() { printf "\e]1337;SetBadgeFormat=%s\a" $(echo -n $@ | base64); }
+function nokbadge() {
+  export KBADGE_ENABLED=false
+  update_badge
+}
+
+function update_badge() {
+  [[ $ITERM2_BADGE_AUTO_UPDATE -eq 0 ]] && return
+  local msg
+  local dir
+  dir=$PWD
+  [[ "$HOME" == ${dir:0:${#HOME}} ]] && dir="~${dir:${#HOME}}"
+  msg="${dir}"
+
+  $KBADGE_ENABLED && {
+    [ -f $HOME/.zkube ] && { source $HOME/.zkube; }
+    [[ $KUBECONTEXT ]] && { msg+="\nK8S-ctx:$KUBECONTEXT)"; }
+    [[ $KUBENS ]] && { msg+="\nK8S-ns:$KUBENS)"; }
+  }
+
+  set_badge_text ${msg}
+}
+
+function set_badge_text() {
+  printf "\e]1337;SetBadgeFormat=%s\a" $(echo -n $@ | base64);
+}
 chpwd_functions+=(update_badge)
 update_badge
 ################################################################################

@@ -1,0 +1,51 @@
+source <(kubectl completion zsh)
+
+export KUBE_CONTEXT_PREPEND=""
+export KUBE_CONTEXT_APPEND=".se.aporeto.io"
+
+function k() {
+  [[ $KUBE_CONTEXT ]] && {
+    [[ $KUBE_NS ]] && {
+      kubectl --context ${KUBE_CONTEXT_PREPEND}${KUBE_CONTEXT}${KUBE_CONTEXT_APPEND} -n $KUBE_NS $@
+      return $?
+    }
+    kubectl --context ${KUBE_CONTEXT_PREPEND}${KUBE_CONTEXT}${KUBE_CONTEXT_APPEND} $@
+    return $?
+  }
+
+  [[ $KUBE_NS ]] && {
+    kubectl -n $KUBE_NS $@
+    return $?
+  }
+  kubectl $@
+}
+
+function ku() {
+  [[ $KUBE_CONTEXT ]] && {
+    kubectl --context ${KUBE_CONTEXT_PREPEND}${KUBE_CONTEXT}${KUBE_CONTEXT_APPEND} $@
+    return $?
+  }
+  kubectl $@
+}
+
+function kset() {
+  [[ $1 ]] && export KUBE_CONTEXT=$1 || unset KUBE_CONTEXT
+  update_badge
+}
+
+function kunset() {
+  unset KUBE_CONTEXT
+  update_badge
+}
+
+function knsset() {
+  [[ $1 ]] && export KUBE_NS=$1 || unset KUBE_NS
+  update_badge
+}
+
+function uknsset() {
+  unset KUBE_NS
+  update_badge
+}
+
+complete -o default -F __start_kubectl k

@@ -3,49 +3,37 @@ source <(kubectl completion zsh)
 export KUBE_CONTEXT_PREPEND=""
 export KUBE_CONTEXT_APPEND=".se.aporeto.io"
 
-function k() {
-  [[ $KUBE_CONTEXT ]] && {
-    [[ $KUBE_NS ]] && {
-      kubectl --context ${KUBE_CONTEXT_PREPEND}${KUBE_CONTEXT}${KUBE_CONTEXT_APPEND} -n $KUBE_NS $@
-      return $?
-    }
-    kubectl --context ${KUBE_CONTEXT_PREPEND}${KUBE_CONTEXT}${KUBE_CONTEXT_APPEND} $@
-    return $?
-  }
-
-  [[ $KUBE_NS ]] && {
-    kubectl -n $KUBE_NS $@
-    return $?
-  }
-  kubectl $@
-}
-
-function ku() {
-  [[ $KUBE_CONTEXT ]] && {
-    kubectl --context ${KUBE_CONTEXT_PREPEND}${KUBE_CONTEXT}${KUBE_CONTEXT_APPEND} $@
-    return $?
-  }
-  kubectl $@
-}
+alias k=kubectl
 
 function kset() {
-  [[ $1 ]] && export KUBE_CONTEXT=$1 || unset KUBE_CONTEXT
-  update_badge
+  [[ $1 ]] || { err "Usage:kset context"; return 2; }
+  kubectl config use-context ${KUBE_CONTEXT_PREPEND}${1}${KUBE_CONTEXT_APPEND} || return $?
+  kupdate
+  return 0
 }
 
-function kunset() {
-  unset KUBE_CONTEXT
-  update_badge
+function knset() {
+  [[ $1 ]] || { err "Usage:knset context"; return 2; }
+  kubectl config set-context --current --namespace=$1 || return $?
+  kupdate 
+  return 0
 }
 
-function knsset() {
-  [[ $1 ]] && export KUBE_NS=$1 || unset KUBE_NS
-  update_badge
+function kupdate() {
+  local kubecontext=$(kubectl config current-context)
+    [[ $kubecontext ]] && {
+      local kubecontext2=$(echo $kubecontext | awk -F\. '{print $1}')
+      local kubens=$(kubectl config view -o jsonpath="{.contexts[?(@.name == \"$kubecontext\")].context.namespace}")
+      [[ $kubens ]] && {
+        echo "export KUBECONTEXT=$kubecontext2" > $HOME/.zkube
+        echo "export KUBENS=$kubens" >> $HOME/.zkube
+      } || {
+        echo "export KUBECONTEXT=$kubecontext2" > $HOME/.zkube
+        echo "export KUBENS=\"\"" >> $HOME/.zkube
+      }
+  }
 }
 
-function uknsset() {
-  unset KUBE_NS
-  update_badge
-}
+kupdate
 
 complete -o default -F __start_kubectl k
