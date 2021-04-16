@@ -1,39 +1,25 @@
 source <(kubectl completion zsh)
 
-export KUBE_CONTEXT_PREPEND=""
-export KUBE_CONTEXT_APPEND=".se.aporeto.io"
 
-alias k=kubectl
-
-function kset() {
-  [[ $1 ]] || { err "Usage:kset context"; return 2; }
-  kubectl config use-context ${KUBE_CONTEXT_PREPEND}${1}${KUBE_CONTEXT_APPEND} || return $?
-  kupdate
-  return 0
-}
-
-function knset() {
-  [[ $1 ]] || { err "Usage:knset context"; return 2; }
-  kubectl config set-context --current --namespace=$1 || return $?
-  kupdate 
-  return 0
-}
-
-function kupdate() {
-  local kubecontext=$(kubectl config current-context)
-    [[ $kubecontext ]] && {
-      local kubecontext2=$(echo $kubecontext | awk -F\. '{print $1}')
-      local kubens=$(kubectl config view -o jsonpath="{.contexts[?(@.name == \"$kubecontext\")].context.namespace}")
-      [[ $kubens ]] && {
-        echo "export KUBECONTEXT=$kubecontext2" > $HOME/.zkube
-        echo "export KUBENS=$kubens" >> $HOME/.zkube
-      } || {
-        echo "export KUBECONTEXT=$kubecontext2" > $HOME/.zkube
-        echo "export KUBENS=\"\"" >> $HOME/.zkube
-      }
+# alias k=kubectl
+function k() {
+  [[ -p /dev/stdin ]] && {
+    echo $(cat -) | kubectl "$@"
+    rc=$?
+    update_badge
+    return "$rc"
   }
+
+  kubectl "$@"
+  rc=$?
+  update_badge
+  return "$rc"
 }
 
-kupdate
+function kcl() { k config get-contexts; }
+
+function kset() { k config use-context "$1"; }
+
+# kubectl config set-context --current --namespace=
 
 complete -o default -F __start_kubectl k
