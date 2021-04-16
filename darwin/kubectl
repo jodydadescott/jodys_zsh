@@ -16,10 +16,20 @@ function k() {
   return "$rc"
 }
 
-function kcl() { k config get-contexts; }
+function kset() {
+  [[ "$1" ]] && {
+    k config use-context "$1"
+  } || {
+    k config get-contexts --output=name
+  }
+}
 
-function kset() { k config use-context "$1"; }
-
-# kubectl config set-context --current --namespace=
+function knset() {
+  [[ "$1" ]] && {
+    k config set-context --current --namespace="$1"
+  } || {
+    k get ns
+  }
+}
 
 complete -o default -F __start_kubectl k
