@@ -39,7 +39,7 @@ function update_badge() {
   msg="${dir}"
 
   local kubecontext
-  kubecontext=$(kubectl config current-context)
+  kubecontext=$(kubectl config current-context 2> /dev/null)
   [[ $kubecontext ]] && {
     msg+="\nk8s:$kubecontext"
     local kubens

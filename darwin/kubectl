@@ -1,6 +1,5 @@
 source <(kubectl completion zsh)
 
-
 # alias k=kubectl
 function k() {
   [[ -p /dev/stdin ]] && {

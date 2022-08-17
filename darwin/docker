@@ -1,0 +1,24 @@
+export DOCKER_RAW_FILE="${HOME}/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw"
+export DOCKER_MAX_FILE_SIZE=13000 # Megabytes
+
+function docker_raw_file_cleanup() {
+  [ -f "$DOCKER_RAW_FILE" ] || return 0
+  local file_size
+  file_size="$(du -m "$DOCKER_RAW_FILE" | awk '{print $1}')"
+  [ "$file_size" -eq "$file_size" ] || {
+    err "File size is invalid"
+    return 2
+  }
+  [ "$file_size" -lt "$DOCKER_MAX_FILE_SIZE" ] && {
+    err "File is less then max"
+    return 0
+  } 
+  err "Removing oversized docker raw file"
+  rm -rf "$DOCKER_RAW_FILE"
+}
+
+function docker_container_cleanup() {
+  docker ps -a | grep Exited | awk '{print "docker rm "$1}' | bash
+}
+
+function docker_start() { /Applications/Docker.app/Contents/MacOS/Docker &!; }

@@ -1,26 +1,19 @@
-export APOCTL_NAMESPACE=/aporeto/se/v2
-export PAM_AUTH_PROVIDER="google"
-export APOCTL_API="https://api.console.aporeto.com"
-
-export APOCTL_AUTH_PROVIDER=google
-export APOCTL_API_SKIP_VERIFY=true
-
 # Apoctl auto completion
 which apoctl > /dev/null 2>&1 && {
   . <(apoctl completion zsh)
 }
 
-function ap.auth() {
-  which apoctl > /dev/null 2>&1 || { err "apoctl not found in path"; return 2; }
-  $(apoctl -A $APOCTL_API auth $APOCTL_AUTH_PROVIDER -e) || { err "auth failed"; return 2; }
-}
+# function ap.auth() {
+#  which apoctl > /dev/null 2>&1 || { err "apoctl not found in path"; return 2; }
+#  $(apoctl -A $APOCTL_API auth $APOCTL_AUTH_PROVIDER -e) || { err "auth failed"; return 2; }
+# }
 
-function ap.auth.verify() {
-  which apoctl > /dev/null 2>&1 || { err "apoctl not found in path"; return 2; }
-  apoctl -A $APOCTL_API auth verify
-}
+# function ap.auth.verify() {
+# which apoctl > /dev/null 2>&1 || { err "apoctl not found in path"; return 2; }
+#  apoctl -A $APOCTL_API auth verify
+# }
 
-function ap.help() {
-  which apoctl > /dev/null 2>&1 || { err "apoctl not found in path"; return 2; }
-  apoctl api all | xargs -n1
-}
+# function ap.help() {
+#  which apoctl > /dev/null 2>&1 || { err "apoctl not found in path"; return 2; }
+#  apoctl api all | xargs -n1
+# }
