@@ -2,12 +2,13 @@
 #
 # ENV Vars
 #
-export ANDROID_HOME="/Users/${USER}/Library/Android"
-export ANDROID_SDK_HOME=${ANDROID_HOME}/sdk
+export MY_ANDROID_HOME="/Users/${USER}/Library/Android"
+export MY_ANDROID_SDK_HOME=${MY_ANDROID_HOME}/sdk
 # export ANDROID_NDK_HOME=${ANDROID_SDK_HOME}/ndk/21.1.6352462
 #
 # Platform Tools
-addpath ${ANDROID_SDK_HOME}/platform-tools
+addpath ${MY_ANDROID_SDK_HOME}/platform-tools
+addpath ${MY_ANDROID_SDK_HOME}/emulator
 #
 # Logcat #######################################################################
 #
