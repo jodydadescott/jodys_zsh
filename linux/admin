@@ -1,0 +1,1 @@
+alias admin='sudo su admin -c "cd /home/admin; /bin/zsh"'
