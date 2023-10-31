@@ -1,6 +1,0 @@
-BADGER_IMAGE=badger-os-builder
-BADGER_TAG=nov15-2022
-
-function badger_builder() {
-  docker run --rm --privileged -v ${HOME}/.gitcreds:/root/.gitcreds:ro -v ${PWD}:/mnt:rw -it jodydadescott/${BADGER_IMAGE}:${BADGER_TAG} bash $@
-}
