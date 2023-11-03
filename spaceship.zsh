@@ -70,11 +70,4 @@ SPACESHIP_USER_SUFFIX="@"
 SPACESHIP_HOST_PREFIX=""
 # export SPACESHIP_HOST_SUFFIX="]"
 
-[ -d ${HOME}/.spaceship ] || {
-  git clone https://github.com/spaceship-prompt/spaceship-prompt.git ${HOME}/.spaceship || {
-    err "Failed to get spaceship"
-    exit 2
-  } 
-}
-
 source ${HOME}/.spaceship/spaceship.zsh

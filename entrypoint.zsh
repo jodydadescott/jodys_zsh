@@ -75,7 +75,7 @@ func source_dir() {
   } ||:
 }
 
-source_dir "${ZSH_PROFILE}/$(echo $(uname) | tr '[:upper:]' '[:lower:]')"
+source_dir "${ZSH_PROFILE}/$(uname | tr '[:upper:]' '[:lower:]')"
 source_dir "${ZSH_PROFILE}/common"
 
 PATH=/usr/local/bin:$PATH
