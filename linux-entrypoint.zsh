@@ -36,7 +36,7 @@ bindkey '^[[B' history-substring-search-down
 bindkey '^[[3~' delete-char
 bindkey '^[3;5~' delete-char
 
-source "${ZSH_PROFILE}/spaceship.zsh"
+source "${ZSH_PROFILE}/linux/spaceship.zsh"
 source_dir "${ZSH_PROFILE}/linux"
 source_dir "${ZSH_PROFILE}/common"
 
