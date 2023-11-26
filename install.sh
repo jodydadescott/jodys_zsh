@@ -1,32 +1,16 @@
-#!/bin/bash -e
+#!/bin/bash
 # shellcheck disable=SC2015
 #
-
-
 function main() {
-  cd "$(dirname "$0")"
-  install_antibody || { err "antibody install failed"; return 3; }
-  install_spaceship || { err "spaceship install failed"; return 3; }
+  install_reqs || { err "Failed"; return 3; }
   install_zshrc || { err "zshrc install failed"; return 3; }
 }
 
-function install_antibody {
-
-  [ -f /usr/local/bin/antibody ] && {
-    err "antibody is already installed"
-    return 0
-  } ||:
-
-  curl -o "${SCRATCH}/antibody" -sfL git.io/antibody
-  chmod +x "${SCRATCH}/antibody"
-  sudo "${SCRATCH}/antibody" -b /usr/local/bin
-}
-
-function install_spaceship() {
-  [ -d "${HOME}/.spaceship" ] && {
-    err "spaceship is already installed"
-    return 0
-  } ||:
+function install_reqs() {
+  cd "$(dirname "$0")" || { err "Failed to change dir"; return 2; }
+  rm -rf ${HOME}/.antidote
+  rm -rf ${HOME}/.spaceship
+  git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-$HOME}/.antidote
   git clone https://github.com/spaceship-prompt/spaceship-prompt.git "${HOME}/.spaceship"
 }
 
@@ -63,7 +47,7 @@ function echo_zshrc()
 {
 cat <<EOF
 ZSH_PROFILE="${1}"
-source \${ZSH_PROFILE}/entrypoint.zsh
+source \${ZSH_PROFILE}/zshrc
 EOF
 }
 
