@@ -1,1 +1,1 @@
-addpath /opt/local/bin /opt/local/sbin
+addpath /opt/homebrew/sbin /opt/homebrew/bin

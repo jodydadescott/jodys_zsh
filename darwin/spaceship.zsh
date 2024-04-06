@@ -29,9 +29,9 @@ SPACESHIP_PROMPT_ORDER=(
   # crystal        # Crystal section
   docker         # Docker section
   docker_compose # Docker section
-  # aws            # Amazon Web Services section
-  # gcloud         # Google Cloud Platform section
-  # azure          # Azure section
+  aws            # Amazon Web Services section
+  gcloud         # Google Cloud Platform section
+  azure          # Azure section
   # venv           # virtualenv section
   # conda          # conda virtualenv section
   # dotnet         # .NET section

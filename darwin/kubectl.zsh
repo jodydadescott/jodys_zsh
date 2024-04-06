@@ -30,5 +30,3 @@ function knset() {
     k get ns
   }
 }
-
-complete -o default -F __start_kubectl k
