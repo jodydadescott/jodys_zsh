@@ -1,0 +1,13 @@
+
+function aws-set-profile() {
+  [ -n "$1" ] || {
+    unset AWS_PROFILE
+    err "AWS Profile set to default. Add profile name to arg for non-default"
+    return 0
+  }
+  export AWS_PROFILE=$1
+  err "AWS Profile set to $AWS_PROFILE"
+}
+
+# Full path to bin is required because path is being built
+source <(/opt/homebrew/bin/eksctl completion zsh)

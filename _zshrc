@@ -5,29 +5,38 @@ err() { echo "$@" 1>&2; }
   exit 2
 }
 
-function debug-enable() { touch "$HOME/.zdebug"; }
-function debug-disable() { rm -f "$HOME/.zdebug"; }
-
-function err-debug() {
-  [ -f "$HOME/.zdebug" ] || return 0
-  err "$@"
-}
-
 function addpath() {
   for p in $@; do
-    _addpath "$p"
+    addsinglepath "$p"
   done
+  export PATH
 }
 
-function _addpath() {
-  echo -e "${TMP_PATH//:/"\n"}" | while read p ; do
-  [[ "$p" == "$1" ]] && {
-    err-debug "ignoring duplicate request to add path $p";
+function debug() { touch "$HOME/.zdebug"; }
+function no-debug() { rm -f "$HOME/.zdebug"; }
+
+function addsinglepath() {
+  echo -e "${PATH//:/"\n"}" | while read p ; do
+    [[ "$p" == "$1" ]] && {
+      [ -f "$HOME/.zdebug" ] && { err "ignoring duplicate request to add path $p"; }
     return 0
   } ||:
   done
-  [ -n "$TMP_PATH" ] && { TMP_PATH+=":$1"; } || { TMP_PATH="$1"; }
+  PATH+=:"$1"
   return 0
+}
+
+function source_dir() {
+  [ -d ${1} ] && {
+    for f in $( ls -1 ${1}); do
+      [[ "$(echo "$f" | awk -F\. '{print $2}')" == "zsh" ]] && {
+        # Dont load spaceship again
+        [[ "$f" == "spaceship.zsh" ]] && continue ||:
+        # err "Loading ${1}/${f}"
+        source "${1}/${f}"
+      }
+    done
+  } ||:
 }
 
 autoload -Uz compinit
@@ -62,45 +71,25 @@ bindkey '^[[B' history-substring-search-down
 bindkey '^[[3~' delete-char
 bindkey '^[3;5~' delete-char
 
-PATH=/bin:/usr/bin
-
 source ${HOME}/.antidote/antidote.zsh
 antidote load ${ZSH_PROFILE}/plugins/common
 
-function load_zshrcd() {
-  [ -d "${ZSH_PROFILE}/zshrc.d" ] || {
-    err "${ZSH_PROFILE}/zshrc.d does not exist"
-    return 0
-  }
-
-  local os parts
-  os="$(uname)"
-  os=${os:l}
-
-  for f in $(/bin/ls -1 "${ZSH_PROFILE}/zshrc.d" | sort -t- -k1,1n); do
-    parts=(${(s/-/)f})
-    [[ "$parts[2]" == (#i)"$os" ]] && {
-      err-debug "loading $f"
-      source "${ZSH_PROFILE}/zshrc.d/$f"
-      continue
-    } ||:
-
-    [[ "$parts[2]" == "common" ]] && {
-      err-debug "loading $f"
-      source "${ZSH_PROFILE}/zshrc.d/$f"
-      continue
-    } ||:
-      
-    err-debug "ignoring $f"
-  done
+function load_darwin() {
+  source "${ZSH_PROFILE}/darwin/spaceship.zsh"
+  source_dir "${ZSH_PROFILE}/darwin"
 }
 
-unset TMP_PATH
-load_zshrcd
-addpath /bin /usr/bin
-export PATH="$TMP_PATH"
-unset TMP_PATH
+function load_linux() {
+  source "${ZSH_PROFILE}/linux/spaceship.zsh"
+  source_dir "${ZSH_PROFILE}/linux"
+}
 
-[ -f "$HOME/.zdebug" ] && {
-  err "debug is enabled, use debug-disable to disable"
-} ||:
+case $(uname) in
+  Darwin) load_darwin ;;
+  Linux) load_linux ;;
+esac
+
+source_dir "${ZSH_PROFILE}/common"
+
+PATH=/usr/local/bin:$PATH
+export PATH

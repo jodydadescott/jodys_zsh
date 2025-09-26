@@ -1,0 +1,4 @@
+which shelly > /dev/null 2>&1 || return 0
+
+source <(shelly completion zsh)
+export SHELLY_CONFIG=${HOME}/.shelly/shelly.yaml

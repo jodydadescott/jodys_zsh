@@ -1,0 +1,7 @@
+export GOPATH=$HOME/workspace
+export GOROOT=$HOME/.go
+addpath $GOPATH/bin $GOROOT/bin
+
+function gotidy() {
+  find ./ -name go.mod -exec realpath {} ';' | awk '{print "dirname "$0}' | zsh | awk '{print "cd "$0" && go mod tidy -e"}' | zsh -x;
+}

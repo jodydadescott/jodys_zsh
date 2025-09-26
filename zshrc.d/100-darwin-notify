@@ -1,0 +1,3 @@
+[[ "$TERM_PROGRAM" == "iTerm.app" ]] && {
+  antidote load ${ZSH_PROFILE}/plugins/zsh_notify
+} ||:

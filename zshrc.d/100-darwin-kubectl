@@ -1,19 +1,7 @@
-source <(kubectl completion zsh)
+# Full path to bin is required because path is being built
+source <(/opt/homebrew/bin/kubectl completion zsh)
 
-# alias k=kubectl
-function k() {
-  [[ -p /dev/stdin ]] && {
-    echo $(cat -) | kubectl "$@"
-    rc=$?
-    update_badge
-    return "$rc"
-  }
-
-  kubectl "$@"
-  rc=$?
-  update_badge
-  return "$rc"
-}
+alias k=kubectl
 
 function kset() {
   [[ "$1" ]] && {

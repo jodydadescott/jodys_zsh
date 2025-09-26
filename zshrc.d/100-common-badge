@@ -8,6 +8,7 @@
 ################################################################################
 
 export ITERM2_BADGE_AUTO_UPDATE=1
+export RUNNING_CMD=""
 
 function badge() {
   export ITERM2_BADGE_AUTO_UPDATE=0
@@ -20,16 +21,6 @@ function nobadge() {
   update_badge
 }
 
-function kbadge() {
-  export KBADGE_ENABLED=true
-  update_badge
-}
-
-function nokbadge() {
-  export KBADGE_ENABLED=false
-  update_badge
-}
-
 function update_badge() {
   [[ $ITERM2_BADGE_AUTO_UPDATE -eq 0 ]] && return
   local msg
@@ -37,16 +28,6 @@ function update_badge() {
   dir=$PWD
   [[ "$HOME" == ${dir:0:${#HOME}} ]] && dir="~${dir:${#HOME}}"
   msg="${dir}"
-
-  local kubecontext
-  kubecontext=$(kubectl config current-context 2> /dev/null)
-  [[ $kubecontext ]] && {
-    msg+="\nk8s:$kubecontext"
-    local kubens
-    kubens=$(kubectl config view -o jsonpath="{.contexts[?(@.name == \"$kubecontext\")].context.namespace}")
-    [[ "$kubens" ]] || { kubens="default"; }
-    msg+=":$kubens"
-  }
   set_badge_text ${msg}
 }
 
@@ -54,6 +35,17 @@ function set_badge_text() {
   printf "\e]1337;SetBadgeFormat=%s\a" $(echo -n $@ | base64);
 }
 
-chpwd_functions+=(update_badge)
-update_badge
+[[ "$TERM_PROGRAM" == "iTerm.app" ]] && {
+  add-zsh-hook chpwd update_badge
+  # add-zsh-hook preexec update_cmd
+  update_badge
+} ||:
+
+function update_cmd() {
+  print ">>$@<<"
+  # RUNNING_CMD="$@"
+  # update_badge
+  # echo "CMD->$RUNNING_CMD"
+}
+
 ################################################################################
