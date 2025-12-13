@@ -1,1 +1,6 @@
-addpath /opt/homebrew/sbin /opt/homebrew/bin
+# Detect Homebrew location (Apple Silicon vs Intel)
+if [ -d /opt/homebrew ]; then
+  addpath /opt/homebrew/sbin /opt/homebrew/bin
+elif [ -d /usr/local/Homebrew ]; then
+  addpath /usr/local/sbin /usr/local/bin
+fi

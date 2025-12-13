@@ -1,5 +1,4 @@
-# Base
-PATH=/usr/bin:/bin:/usr/sbin:/sbin
-
-# Local
-PATH+=:/usr/local/bin:/usr/local/sbin
+# Linux base paths
+# Note: Intentionally using direct PATH modification for base system paths
+# This runs early to establish baseline before other modules use addpath
+addpath /usr/bin /bin /usr/sbin /sbin /usr/local/bin /usr/local/sbin

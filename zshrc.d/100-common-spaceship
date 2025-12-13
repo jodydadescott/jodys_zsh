@@ -30,7 +30,7 @@ SPACESHIP_PROMPT_ORDER=(
   docker         # Docker section
   docker_compose # Docker section
   aws            # Amazon Web Services section
-  gcloud         # Google Cloud Platform section
+  # gcloud         # Google Cloud Platform section
   azure          # Azure section
   # venv           # virtualenv section
   # conda          # conda virtualenv section
@@ -63,11 +63,14 @@ SPACESHIP_HOST_SHOW=true
 SPACESHIP_USER_SHOW=true
 SPACESHIP_CHAR_SYMBOL="➜"
 SPACESHIP_CHAR_SUFFIX=" "
-SPACESHIP_DIR_SHOW=false
+SPACESHIP_DIR_SHOW=true
+SPACESHIP_DIR_TRUNC=0
+SPACESHIP_DIR_TRUNC_REPO=false
 
 # export SPACESHIP_USER_PREFIX=" with "
 SPACESHIP_USER_SUFFIX="@"
 SPACESHIP_HOST_PREFIX=""
 # export SPACESHIP_HOST_SUFFIX="]"
 
-source ${HOME}/.spaceship/spaceship.zsh
+# Load spaceship prompt if available
+[ -f ${HOME}/.spaceship/spaceship.zsh ] && source ${HOME}/.spaceship/spaceship.zsh

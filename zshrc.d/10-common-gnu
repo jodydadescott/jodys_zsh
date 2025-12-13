@@ -1,1 +1,6 @@
-addpath /opt/homebrew/opt/gnu-tar/libexec/gnubin
+# Detect Homebrew location (Apple Silicon vs Intel)
+if [ -d /opt/homebrew/opt/gnu-tar/libexec/gnubin ]; then
+  addpath /opt/homebrew/opt/gnu-tar/libexec/gnubin
+elif [ -d /usr/local/opt/gnu-tar/libexec/gnubin ]; then
+  addpath /usr/local/opt/gnu-tar/libexec/gnubin
+fi

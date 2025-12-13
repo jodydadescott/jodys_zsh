@@ -9,5 +9,7 @@ function aws-set-profile() {
   err "AWS Profile set to $AWS_PROFILE"
 }
 
-# Full path to bin is required because path is being built
-source <(/opt/homebrew/bin/eksctl completion zsh)
+# Load eksctl completion if available
+if command -v eksctl &>/dev/null; then
+  source <(eksctl completion zsh)
+fi

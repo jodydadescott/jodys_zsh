@@ -7,8 +7,8 @@ export MY_ANDROID_SDK_HOME=${MY_ANDROID_HOME}/sdk
 # export ANDROID_NDK_HOME=${ANDROID_SDK_HOME}/ndk/21.1.6352462
 #
 # Platform Tools
-addpath ${MY_ANDROID_SDK_HOME}/platform-tools
-addpath ${MY_ANDROID_SDK_HOME}/emulator
+[ -d ${MY_ANDROID_SDK_HOME}/platform-tools ] && addpath ${MY_ANDROID_SDK_HOME}/platform-tools
+[ -d ${MY_ANDROID_SDK_HOME}/emulator ] && addpath ${MY_ANDROID_SDK_HOME}/emulator
 #
 # Logcat #######################################################################
 #

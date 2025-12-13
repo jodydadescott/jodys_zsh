@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/bin/bash -e
+# cSpell:ignore shellcheck reqs ZDOTDIR newname SCRATCH
 # shellcheck disable=SC2015
-#
+
 function main() {
   install_reqs || { err "Failed"; return 3; }
   install_zshrc || { err "zshrc install failed"; return 3; }
@@ -8,10 +9,10 @@ function main() {
 
 function install_reqs() {
   cd "$(dirname "$0")" || { err "Failed to change dir"; return 2; }
-  rm -rf ${HOME}/.antidote
-  rm -rf ${HOME}/.spaceship
-  git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-$HOME}/.antidote
-  git clone https://github.com/spaceship-prompt/spaceship-prompt.git "${HOME}/.spaceship"
+  rm -rf "${HOME}/.antidote"
+  rm -rf "${HOME}/.spaceship"
+  git clone --depth=1 https://github.com/mattmc3/antidote.git "${ZDOTDIR:-$HOME}/.antidote"
+  git clone --depth=1 https://github.com/spaceship-prompt/spaceship-prompt.git "${HOME}/.spaceship"
 }
 
 function install_zshrc() {

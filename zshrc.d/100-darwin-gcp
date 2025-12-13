@@ -1,0 +1,2 @@
+[ -f /usr/local/google-cloud-sdk/path.zsh.inc ] && . /usr/local/google-cloud-sdk/path.zsh.inc ||:
+[ -f /usr/local/google-cloud-sdk/completion.zsh.inc ] && . /usr/local/google-cloud-sdk/completion.zsh.inc ||:

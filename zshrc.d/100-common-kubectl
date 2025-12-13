@@ -1,5 +1,7 @@
-# Full path to bin is required because path is being built
-source <(/opt/homebrew/bin/kubectl completion zsh)
+# Load kubectl completion if available
+if command -v kubectl &>/dev/null; then
+  source <(kubectl completion zsh)
+fi
 
 alias k=kubectl
 

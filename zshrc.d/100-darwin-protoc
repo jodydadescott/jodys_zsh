@@ -1,1 +1,1 @@
-addpath /usr/local/protoc/bin
+[ -d /usr/local/protoc/bin ] && addpath /usr/local/protoc/bin

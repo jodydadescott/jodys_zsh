@@ -1,1 +1,1 @@
-addpath /usr/local/apache-maven/bin
+[ -d /usr/local/apache-maven/bin ] && addpath /usr/local/apache-maven/bin

@@ -42,5 +42,6 @@ export CLICOLOR=1
 
 # Color theme (see above)
 export LSCOLORS=Exfxcxdxbxegedabagacad
- 
-export GREP_OPTIONS='--color=auto'
+
+# Use alias instead of deprecated GREP_OPTIONS
+alias grep='grep --color=auto'

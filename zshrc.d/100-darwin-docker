@@ -18,7 +18,7 @@ function docker_raw_file_cleanup() {
 }
 
 function docker_container_cleanup() {
-  docker ps -a | grep Exited | awk '{print "docker rm "$1}' | bash
+  docker ps -a --filter "status=exited" --format "{{.ID}}" | xargs -r docker rm
 }
 
 function docker_start() { /Applications/Docker.app/Contents/MacOS/Docker &!; }
