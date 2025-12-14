@@ -4,8 +4,8 @@
 # Sets up Go paths and provides go mod tidy utility
 ################################################################################
 
-export GOPATH=$HOME/workspace
-export GOROOT=$HOME/.go
+[ -z "$GOPATH" ] && export GOPATH=$HOME/workspace
+[ -z "$GOROOT" ] && export GOROOT=$HOME/.go
 
 # Add Go paths if GOROOT exists
 [ -d "$GOROOT" ] && addpath $GOROOT/bin
