@@ -4,12 +4,29 @@
 # Loads kubectl completion and provides context/namespace switching utilities
 ################################################################################
 
-# Load kubectl completion if available
-if command -v kubectl &>/dev/null; then
-  source <(kubectl completion zsh)
+# Generate kubectl completion file if kubectl is available
+# Check both PATH and TMP_PATH since PATH hasn't been fully set yet during loading
+if command -v kubectl &>/dev/null || [[ -n "${TMP_PATH}" ]] && PATH="${TMP_PATH}:${PATH}" command -v kubectl &>/dev/null; then
+  # Ensure completion directory exists
+  mkdir -p "${HOME}/.zsh/completions"
+  
+  # Generate completion file if it doesn't exist or kubectl was updated
+  local kubectl_completion="${HOME}/.zsh/completions/_kubectl"
+  local kubectl_bin=$(PATH="${TMP_PATH}:${PATH}" command -v kubectl 2>/dev/null)
+  if [[ -n "$kubectl_bin" ]] && { [[ ! -f "$kubectl_completion" ]] || [[ "$kubectl_bin" -nt "$kubectl_completion" ]]; }; then
+    PATH="${TMP_PATH}:${PATH}" kubectl completion zsh > "$kubectl_completion" 2>/dev/null
+    # Invalidate completion cache to pick up new completion
+    rm -f ~/.zcompdump* ~/.cache/zsh/compdump* 2>/dev/null
+  fi
 fi
 
 alias k=kubectl
+
+# Set up completion for k alias
+# We use autoload to defer loading until first use
+if (( $+functions[_kubectl] )) || [[ -f "${HOME}/.zsh/completions/_kubectl" ]]; then
+  compdef _kubectl k 2>/dev/null || true
+fi
 
 function kset() {
   [[ "$1" ]] && {

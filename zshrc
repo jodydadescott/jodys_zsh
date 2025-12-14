@@ -30,6 +30,9 @@ function _addpath() {
   return 0
 }
 
+# Add custom completions directory to fpath
+fpath=(${HOME}/.zsh/completions $fpath)
+
 autoload -Uz compinit
 typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
 if [ $(date +'%j') != $updated_at ]; then
