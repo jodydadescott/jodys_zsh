@@ -2,14 +2,19 @@
 
 function main() {
   [ -z "$1" ] && {
-    err "usage: push-home host"
+    err "usage: push-home terraform-state"
     return 1
   }
 
-  local host="$1"
-  ssh "$host" 'mkdir -p .config/crush; mkdir -p .local/share/crush'
-  rsync -avz "$HOME/.config/crush/crush.json" "$1:.config/crush/crush.json"
-  rsync -avz "$HOME/.local/share/crush/crush.json" "$1:.local/share/crush/crush.json"
+  rhost="$(jq -r '.resources[] | select(.type == "aws_instance") | .instances[0].attributes.public_dns' "$1")"
+  [ -z "$rhost" ] && {
+    err "missing remote host in terraform state"
+    return 1
+  }
+
+  ssh "$rhost" 'mkdir -p .config/crush; mkdir -p .local/share/crush'
+  rsync -avz "$HOME/.config/crush/crush.json" "$rhost:.config/crush/crush.json"
+  rsync -avz "$HOME/.local/share/crush/crush.json" "$rhost:.local/share/crush/crush.json"
 }
 
 function err() { echo "$@" 1>&2; }
