@@ -1,0 +1,6 @@
+# Source system-wide zsh configuration files if they exist
+if [ -d /etc/zshrc.d ]; then
+  for file in /etc/zshrc.d/*; do
+    [ -f "$file" ] && source "$file"
+  done
+fi
