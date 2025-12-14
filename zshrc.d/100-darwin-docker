@@ -1,3 +1,9 @@
+#!/bin/zsh
+################################################################################
+# Docker configuration for Darwin/macOS
+# Provides Docker Desktop utilities including cleanup and startup functions
+################################################################################
+
 export DOCKER_RAW_FILE="${HOME}/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw"
 export DOCKER_MAX_FILE_SIZE=13000 # Megabytes
 
@@ -21,4 +27,4 @@ function docker_container_cleanup() {
   docker ps -a --filter "status=exited" --format "{{.ID}}" | xargs -r docker rm
 }
 
-function docker_start() { /Applications/Docker.app/Contents/MacOS/Docker &!; }
+function docker_start() { /Applications/Docker.app/Contents/MacOS/Docker & }

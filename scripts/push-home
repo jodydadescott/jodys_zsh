@@ -1,0 +1,17 @@
+#!/bin/bash
+
+function main() {
+  [ -z "$1" ] && {
+    err "usage: push-home host"
+    return 1
+  }
+
+  local host="$1"
+  ssh "$host" 'mkdir -p .config/crush; mkdir -p .local/share/crush'
+  rsync -avz "$HOME/.config/crush/crush.json" "$1:.config/crush/crush.json"
+  rsync -avz "$HOME/.local/share/crush/crush.json" "$1:.local/share/crush/crush.json"
+}
+
+function err() { echo "$@" 1>&2; }
+
+main "$@"

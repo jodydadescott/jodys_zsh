@@ -1,3 +1,9 @@
+#!/bin/zsh
+################################################################################
+# Homebrew path configuration for Darwin/macOS
+# Detects and adds Homebrew paths (Apple Silicon vs Intel)
+################################################################################
+
 # Detect Homebrew location (Apple Silicon vs Intel)
 if [ -d /opt/homebrew ]; then
   addpath /opt/homebrew/sbin /opt/homebrew/bin

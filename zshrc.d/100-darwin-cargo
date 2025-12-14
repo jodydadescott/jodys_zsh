@@ -1,1 +1,7 @@
+#!/bin/zsh
+################################################################################
+# Rust Cargo configuration for Darwin/macOS
+# Adds Cargo bin directory to PATH (currently disabled)
+################################################################################
+
 # addpath ${HOME}/.cargo/bin

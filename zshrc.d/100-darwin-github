@@ -1,1 +1,7 @@
+#!/bin/zsh
+################################################################################
+# GitHub token configuration for Darwin/macOS
+# Loads GitHub token from ~/.gittoken if present
+################################################################################
+
 [ -f ${HOME}/.gittoken ] && export GITHUB_TOKEN=$(cat ${HOME}/.gittoken)

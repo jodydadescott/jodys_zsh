@@ -1,1 +1,7 @@
+#!/bin/zsh
+################################################################################
+# Jenkins path configuration for Darwin/macOS
+# Adds Jenkins directory to PATH if installed
+################################################################################
+
 [ -d /usr/local/jenkins ] && addpath /usr/local/jenkins

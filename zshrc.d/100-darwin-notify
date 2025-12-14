@@ -1,3 +1,9 @@
+#!/bin/zsh
+################################################################################
+# ZSH notification plugin for Darwin/macOS iTerm2
+# Loads zsh_notify plugin when running in iTerm.app
+################################################################################
+
 [[ "$TERM_PROGRAM" == "iTerm.app" ]] && {
   antidote load ${ZSH_PROFILE}/plugins/zsh_notify
 } ||:

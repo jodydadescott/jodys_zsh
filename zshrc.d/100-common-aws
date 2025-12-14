@@ -1,3 +1,8 @@
+#!/bin/zsh
+################################################################################
+# AWS configuration and utilities
+# Provides AWS profile management and eksctl completion
+################################################################################
 
 function aws-set-profile() {
   [ -n "$1" ] || {

@@ -1,3 +1,9 @@
+#!/bin/zsh
+################################################################################
+# Visual Studio Code configuration for Darwin/macOS
+# Adds VS Code CLI to PATH and provides convenience function
+################################################################################
+
 addpath "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 # Open a new window using the current directory

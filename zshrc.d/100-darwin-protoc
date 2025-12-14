@@ -1,1 +1,7 @@
+#!/bin/zsh
+################################################################################
+# Protocol Buffers compiler path for Darwin/macOS
+# Adds protoc bin directory to PATH if installed
+################################################################################
+
 [ -d /usr/local/protoc/bin ] && addpath /usr/local/protoc/bin

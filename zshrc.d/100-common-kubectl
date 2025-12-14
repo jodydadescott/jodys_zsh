@@ -1,3 +1,9 @@
+#!/bin/zsh
+################################################################################
+# Kubernetes kubectl configuration
+# Loads kubectl completion and provides context/namespace switching utilities
+################################################################################
+
 # Load kubectl completion if available
 if command -v kubectl &>/dev/null; then
   source <(kubectl completion zsh)

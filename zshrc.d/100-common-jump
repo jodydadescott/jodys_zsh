@@ -1,4 +1,6 @@
-#################################################################################
+#!/bin/zsh
+################################################################################
+# Directory jump functionality
 # Sets user defined jump to directory and jumps to said directory when
 # instructed to by user. Often a user works in a given directory and requires
 # multiple shells. This allows the user to set the jump directory in one shell

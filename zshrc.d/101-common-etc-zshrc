@@ -1,6 +1,18 @@
+#!/bin/zsh
+################################################################################
+# System-wide zsh configuration loader
+# Sources configuration files from /etc/zshrc.d and /etc/commonrc.d if present
+################################################################################
+
 # Source system-wide zsh configuration files if they exist
 if [ -d /etc/zshrc.d ]; then
   for file in /etc/zshrc.d/*; do
+    [ -f "$file" ] && source "$file"
+  done
+fi
+
+if [ -d /etc/commonrc.d ]; then
+  for file in /etc/commonrc.d/*; do
     [ -f "$file" ] && source "$file"
   done
 fi

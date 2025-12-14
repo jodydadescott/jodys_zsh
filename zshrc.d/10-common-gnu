@@ -1,3 +1,9 @@
+#!/bin/zsh
+################################################################################
+# GNU tar path configuration
+# Adds GNU tar to PATH, detecting Homebrew location (Apple Silicon vs Intel)
+################################################################################
+
 # Detect Homebrew location (Apple Silicon vs Intel)
 if [ -d /opt/homebrew/opt/gnu-tar/libexec/gnubin ]; then
   addpath /opt/homebrew/opt/gnu-tar/libexec/gnubin

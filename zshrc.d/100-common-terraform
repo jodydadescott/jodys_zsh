@@ -1,3 +1,9 @@
+#!/bin/zsh
+################################################################################
+# Terraform configuration
+# Loads terraform shell completion if available
+################################################################################
+
 # Load terraform completion if available
 if command -v terraform &>/dev/null; then
   complete -o nospace -C terraform terraform

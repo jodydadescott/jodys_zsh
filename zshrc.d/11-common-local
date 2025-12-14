@@ -1,2 +1,8 @@
+#!/bin/zsh
+################################################################################
+# Local user paths
+# Adds common local bin directories to PATH
+################################################################################
+
 addpath /usr/local/bin
 addpath $HOME/.local/bin

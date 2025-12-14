@@ -1,3 +1,9 @@
+#!/bin/zsh
+################################################################################
+# Linux base system paths
+# Adds core Linux system directories to PATH
+################################################################################
+
 # Linux base paths
 # Note: Intentionally using direct PATH modification for base system paths
 # This runs early to establish baseline before other modules use addpath

@@ -1,3 +1,9 @@
+#!/bin/zsh
+################################################################################
+# Google Cloud SDK configuration
+# Adds gcloud to PATH and loads completion if installed
+################################################################################
+
 if [ -d /usr/local/google-cloud-sdk ]; then
   addpath /usr/local/google-cloud-sdk/bin
   [ -f /usr/local/google-cloud-sdk/completion.zsh.inc ] && . /usr/local/google-cloud-sdk/completion.zsh.inc ||:

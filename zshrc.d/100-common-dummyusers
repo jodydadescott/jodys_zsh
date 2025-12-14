@@ -1,3 +1,9 @@
+#!/bin/zsh
+################################################################################
+# Dummy user credential management
+# Provides quick access to test user credentials stored in ~/.dummys
+################################################################################
+
 function dpass() {
    user=$1
    [[ $user ]] || { err "Usage:dpass user"; return 2; }

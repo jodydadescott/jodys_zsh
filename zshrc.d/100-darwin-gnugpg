@@ -1,3 +1,9 @@
+#!/bin/zsh
+################################################################################
+# GnuPG configuration for Darwin/macOS
+# Sets GPG_TTY and provides function to retrieve GPG passphrase
+################################################################################
+
 export GPG_TTY=$(tty)
 
 function getgpgkey() {

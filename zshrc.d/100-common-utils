@@ -1,3 +1,9 @@
+#!/bin/zsh
+################################################################################
+# Common utility functions and aliases
+# Provides network info, file operations, SSH management, and process checking
+################################################################################
+
 alias whatismyip="curl https://ipinfo.io/ip"
 
 alias cls=clear

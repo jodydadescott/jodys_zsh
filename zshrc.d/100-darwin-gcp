@@ -1,2 +1,8 @@
+#!/bin/zsh
+################################################################################
+# Google Cloud SDK configuration for Darwin/macOS
+# Loads GCP SDK path and completion scripts
+################################################################################
+
 [ -f /usr/local/google-cloud-sdk/path.zsh.inc ] && . /usr/local/google-cloud-sdk/path.zsh.inc ||:
 [ -f /usr/local/google-cloud-sdk/completion.zsh.inc ] && . /usr/local/google-cloud-sdk/completion.zsh.inc ||:

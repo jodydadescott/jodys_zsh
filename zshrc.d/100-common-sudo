@@ -1,4 +1,10 @@
+#!/bin/zsh
+################################################################################
+# Sudo insertion keybinding
+# Binds Option+S to insert sudo at the beginning of the current command
+################################################################################
+
 # Insert sudo with control + s
-insert_sudo () { zle beginning-of-line; zle -U "sudo " }
+insert_sudo () { zle beginning-of-line; zle -U "sudo "; }
 zle -N insert-sudo insert_sudo
 bindkey "^[s" insert-sudo

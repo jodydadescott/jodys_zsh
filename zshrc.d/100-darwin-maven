@@ -1,1 +1,7 @@
+#!/bin/zsh
+################################################################################
+# Apache Maven path configuration for Darwin/macOS
+# Adds Maven bin directory to PATH if installed
+################################################################################
+
 [ -d /usr/local/apache-maven/bin ] && addpath /usr/local/apache-maven/bin

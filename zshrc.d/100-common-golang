@@ -1,3 +1,9 @@
+#!/bin/zsh
+################################################################################
+# Go language configuration
+# Sets up Go paths and provides go mod tidy utility
+################################################################################
+
 export GOPATH=$HOME/workspace
 export GOROOT=$HOME/.go
 

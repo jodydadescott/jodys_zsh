@@ -1,3 +1,9 @@
+#!/bin/zsh
+################################################################################
+# Spaceship prompt configuration
+# Configures and loads the Spaceship ZSH prompt theme
+################################################################################
+
 SPACESHIP_PROMPT_ORDER=(
   # time           # Time stamps section
   user           # Username section

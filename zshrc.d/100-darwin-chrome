@@ -1,3 +1,9 @@
+#!/bin/zsh
+################################################################################
+# Chrome debugging configuration for Darwin/macOS
+# Provides function to run Chrome with TLS/SSL key logging for traffic decryption
+################################################################################
+
 # Run Chrome with TLS/SSL key tracking enabled. This allows traffic to be
 # decrypted even if PFS
 
