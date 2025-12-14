@@ -1,0 +1,15 @@
+#!/bin/zsh
+################################################################################
+# Add a "badge" or watermark to Iterm2. By default the badge will show the
+# logged in user and present working directory. The user may change the badge
+# by typing "badge text". This will remain until the user types nobadge or the
+# session ends. This is useful for demonstations with multiple windows.
+# For example, if you are connected to two routers you can label them r1 and r2
+# so that your audience is aware of which is which.
+################################################################################
+
+function badge() {
+  printf "\e]1337;SetBadgeFormat=%s\a" $(echo -n $@ | base64);
+}
+
+###############################################################################
