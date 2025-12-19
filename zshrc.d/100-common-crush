@@ -1,0 +1,16 @@
+#!/bin/zsh
+
+if [ -z "$CRUSH_MODEL" ]; then
+  export CRUSH_MODEL=claude-sonnet-4.5
+fi
+
+function _crush_shell_suggest() {
+  crush run "this is a question about a command only; i am not asking you to do anything except answer the question $*"
+}
+
+function a() {
+  setopt localoptions noglob
+  crush run "PRIMARY TASK: $*. If there is a problem, fix it. After completing the primary task, confirm completion. BACKGROUND TASKS: $LLM_BG_TASK"
+}
+
+alias '?a'='noglob _crush_shell_suggest'

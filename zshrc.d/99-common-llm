@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+if [ -z "$LLM_SESSION_DIR" ]; then
+  export LLM_SESSION_DIR="$HOME/.llm/state/$RANDOM"
+fi
+
+mkdir -p "$LLM_SESSION_DIR"
+
+export BG_BACKGROUND_TASK=" If $LLM_SESSION_DIR/context exists, read it for background info.  If $LLM_SESSION_DIR/state exists, read it for previous state.  Never modify $LLM_SESSION_DIR/context.  While running I might want to send you a note so look for a file in the directory you are running in called autopilot.note. Once you have read it delete it.  CRITICAL: Update $LLM_SESSION_DIR/state IMMEDIATELY after EVERY step you complete - each edit, test run, file creation, command execution. Write what was just done with timestamp. This ensures if something goes wrong, you know exactly where we were.  For long-running commands, use background execution and log PIDs to $LLM_SESSION_DIR/pids.  Use shellcheck for shell scripts and cspell for spelling (add #cSpell:ignore or // cSpell:ignore for correct words).  Security is critical.  When the user specifies file paths or patterns, they will use the noglob command prefix which allows shell completion but prevents glob expansion - treat their input literally.  "

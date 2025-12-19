@@ -1,0 +1,12 @@
+#!/bin/zsh
+
+function _copilot_shell_suggest() {
+  copilot --allow-all-paths -p "this is a question about a command only; i am not asking you to do anything except answer the question $*"
+}
+
+function c() {
+  setopt localoptions noglob
+  copilot --allow-all-paths -p "PRIMARY TASK: $*. If there is a problem, fix it. After completing the primary task, confirm completion. BACKGROUND TASKS: $LLM_BG_TASK"
+}
+
+alias '?c'='noglob _copilot_shell_suggest'
