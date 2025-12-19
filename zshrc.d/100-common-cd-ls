@@ -1,9 +1,0 @@
-#!/bin/zsh
-################################################################################
-# Auto-ls after cd
-# Automatically lists directory contents after changing directories
-################################################################################
-
-function ls_after_cd() { ls; }
-
-add-zsh-hook chpwd ls_after_cd

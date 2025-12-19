@@ -2,21 +2,20 @@
 
 function main() {
   [ -z "$1" ] && {
-    err "usage: push-home terraform-state"
+    err "usage: push-home remote-host"
     return 1
   }
+  rhost="$1"
 
-  rhost="$(jq -r '.resources[] | select(.type == "aws_instance") | .instances[0].attributes.public_dns' "$1")"
-  [ -z "$rhost" ] && {
-    err "missing remote host in terraform state"
-    return 1
-  }
-
-  ssh "$rhost" 'mkdir -p .config/crush; mkdir -p .local/share/crush'
+  ssh -o StrictHostKeyChecking=no "$rhost" 'mkdir -p .config/crush; mkdir -p .local/share/crush'
+  ssh -o StrictHostKeyChecking=no "$rhost" 'curl https://raw.githubusercontent.com/jodydadescott/jodys_homedir/refs/heads/main/install.sh | bash'
+  ssh -o StrictHostKeyChecking=no "$rhost" 'echo done'
   rsync -avz "$HOME/.config/crush/crush.json" "$rhost:.config/crush/crush.json"
   rsync -avz "$HOME/.local/share/crush/crush.json" "$rhost:.local/share/crush/crush.json"
 }
 
 function err() { echo "$@" 1>&2; }
+
+# sudo mount -t efs -o tls fs-0f097db87b5ecc27c:/ /home/jody/workspace
 
 main "$@"

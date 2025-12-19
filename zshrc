@@ -43,6 +43,7 @@ fi
 zmodload -i zsh/complist
 
 # Options
+setopt extended_glob # enable extended glob patterns like (#i)
 setopt auto_cd # cd by typing directory name if its not a command
 setopt auto_list # automatically list choices on ambiguous completion
 setopt auto_menu # automatically use menu completion

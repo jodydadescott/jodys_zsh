@@ -13,6 +13,12 @@ function install_reqs() {
   rm -rf "${HOME}/.spaceship"
   git clone --depth=1 https://github.com/mattmc3/antidote.git "${ZDOTDIR:-$HOME}/.antidote"
   git clone --depth=1 https://github.com/spaceship-prompt/spaceship-prompt.git "${HOME}/.spaceship"
+  
+  # Initialize antidote plugins
+  err "Installing antidote plugins..."
+  source "${ZDOTDIR:-$HOME}/.antidote/antidote.zsh"
+  antidote bundle < plugins/common > plugins/common.zsh
+  err "Antidote plugins installed"
 }
 
 function install_zshrc() {
