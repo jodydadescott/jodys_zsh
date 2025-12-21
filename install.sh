@@ -5,6 +5,7 @@
 function main() {
   install_reqs || { err "Failed"; return 3; }
   install_zshrc || { err "zshrc install failed"; return 3; }
+  install_plugins || { err "plugin install failed"; return 3; }
 }
 
 function install_reqs() {
@@ -13,12 +14,13 @@ function install_reqs() {
   rm -rf "${HOME}/.spaceship"
   git clone --depth=1 https://github.com/mattmc3/antidote.git "${ZDOTDIR:-$HOME}/.antidote"
   git clone --depth=1 https://github.com/spaceship-prompt/spaceship-prompt.git "${HOME}/.spaceship"
-  
-  # Initialize antidote plugins
-  err "Installing antidote plugins..."
-  source "${ZDOTDIR:-$HOME}/.antidote/antidote.zsh"
-  antidote bundle < plugins/common > plugins/common.zsh
-  err "Antidote plugins installed"
+}
+
+function install_plugins() {
+  # Initialize antidote plugins to ~/.zsh-common (outside git repo)
+  err "Installing antidote plugins to ~/.zsh-common..."
+  zsh -c "source '${ZDOTDIR:-$HOME}/.antidote/antidote.zsh' && antidote bundle < '$(pwd)/plugins/common' > '${HOME}/.zsh-common'"
+  err "Antidote plugins installed to ~/.zsh-common"
 }
 
 function install_zshrc() {
