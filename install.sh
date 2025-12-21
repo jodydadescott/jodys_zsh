@@ -1,11 +1,24 @@
 #!/bin/bash -e
 # cSpell:ignore shellcheck reqs ZDOTDIR newname SCRATCH
 # shellcheck disable=SC2015
+#
+# Jody's ZSH Profile Installer
+# 
+# This script installs:
+#   1. Antidote plugin manager to ~/.antidote
+#   2. Spaceship prompt to ~/.spaceship
+#   3. ~/.zshrc configuration file
+#   4. Dynamic plugin files to ~/.zsh_plugins/
+#
+# Usage: ./install.sh
 
 function main() {
   install_reqs || { err "Failed"; return 3; }
   install_zshrc || { err "zshrc install failed"; return 3; }
   install_plugins || { err "plugin install failed"; return 3; }
+  err ""
+  err "✓ Installation complete!"
+  err "  Run 'exec zsh' to start using your new shell configuration."
 }
 
 function install_reqs() {
