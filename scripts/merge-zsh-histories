@@ -1,0 +1,92 @@
+#!/usr/bin/env zsh
+################################################################################
+# merge-zsh-histories
+#
+# Merges multiple ZSH history files into a single deduplicated history.
+# Preserves extended history format (timestamp and duration).
+# Outputs to STDOUT.
+#
+# Usage:
+#   merge-zsh-histories file1 file2 [file3 ...]
+#   merge-zsh-histories ~/.zsh_history ~/.zsh_history.old > merged_history
+#
+# ZSH Extended History Format:
+#   : <timestamp>:<duration>;<command>
+#
+# The script:
+#   1. Reads all input history files
+#   2. Concatenates them
+#   3. Sorts by timestamp
+#   4. Deduplicates keeping the last occurrence of each command
+#   5. Outputs merged history to STDOUT
+################################################################################
+
+function main() {
+  local file
+  local tmpdir
+  local allentries
+  local sorted
+  local deduped
+  
+  # Check arguments
+  [[ $# -lt 2 ]] && usage
+  
+  # Verify all input files exist
+  for file in "$@"; do
+    [[ ! -f "$file" ]] && {
+      err "Error: File not found: $file"
+      return 1
+    }
+  done
+  
+  # Create a temporary directory for processing
+  tmpdir=$(mktemp -d)
+  trap "rm -rf $tmpdir" EXIT
+  
+  allentries="$tmpdir/all_entries"
+  sorted="$tmpdir/sorted"
+  deduped="$tmpdir/deduped"
+  
+  err "Merging ${#@} history files..."
+  
+  # Concatenate all history files
+  for file in "$@"; do
+    err "  Reading: $file"
+    cat "$file" >> "$allentries"
+  done
+  
+  err "Sorting by timestamp..."
+  
+  # Sort by timestamp (first field after ':')
+  sort -t':' -k2 -n "$allentries" > "$sorted"
+  
+  err "Deduplicating commands (keeping most recent)..."
+  
+  # Deduplicate: keep last occurrence of each command
+  # Use tac to reverse, awk to track seen commands, then tac again to restore order
+  tac "$sorted" | awk -F';' '
+    !seen[$2]++ {
+      print $0
+    }
+  ' | tac > "$deduped"
+  
+  # Output the deduplicated history
+  cat "$deduped"
+  
+  err "Done. Merged $(wc -l < "$deduped" | tr -d ' ') unique commands."
+}
+
+function err() { echo "$@" 1>&2; }
+
+function usage() {
+  err "Usage: $0 file1 file2 [file3 ...]"
+  err ""
+  err "Merges multiple ZSH history files into a single deduplicated history."
+  err "Output is written to STDOUT."
+  err ""
+  err "Example:"
+  err "  $0 ~/.zsh_history ~/.zsh_history.backup > merged_history"
+  exit 1
+}
+
+main "$@"
