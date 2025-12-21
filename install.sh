@@ -17,10 +17,17 @@ function install_reqs() {
 }
 
 function install_plugins() {
-  # Initialize antidote plugins to ~/.zsh-common (outside git repo)
-  err "Installing antidote plugins to ~/.zsh-common..."
-  zsh -c "source '${ZDOTDIR:-$HOME}/.antidote/antidote.zsh' && antidote bundle < '$(pwd)/plugins/common' > '${HOME}/.zsh-common'"
-  err "Antidote plugins installed to ~/.zsh-common"
+  # Initialize antidote plugins to ~/.zsh_plugins/ (outside git repo)
+  err "Installing antidote plugins to ~/.zsh_plugins/..."
+  mkdir -p "${HOME}/.zsh_plugins"
+  
+  zsh -c "source '${ZDOTDIR:-$HOME}/.antidote/antidote.zsh' && antidote bundle < '$(pwd)/plugins/common' > '${HOME}/.zsh_plugins/common.zsh'"
+  err "  - common.zsh generated"
+  
+  zsh -c "source '${ZDOTDIR:-$HOME}/.antidote/antidote.zsh' && antidote bundle < '$(pwd)/plugins/zsh_notify' > '${HOME}/.zsh_plugins/zsh_notify.zsh'"
+  err "  - zsh_notify.zsh generated"
+  
+  err "Antidote plugins installed to ~/.zsh_plugins/"
 }
 
 function install_zshrc() {

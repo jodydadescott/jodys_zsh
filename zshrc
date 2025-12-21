@@ -69,10 +69,10 @@ bindkey '^[3;5~' delete-char
 PATH=/bin:/usr/bin
 
 source ${HOME}/.antidote/antidote.zsh
-[ -f "${HOME}/.zsh-common" ] && {
-  source "${HOME}/.zsh-common"
+[ -f "${HOME}/.zsh_plugins/common.zsh" ] && {
+  source "${HOME}/.zsh_plugins/common.zsh"
 } || {
-  err "WARNING: ${HOME}/.zsh-common not found. Run install.sh to generate it."
+  err "WARNING: ${HOME}/.zsh_plugins/common.zsh not found. Run install.sh to generate it."
   antidote load ${ZSH_PROFILE}/plugins/common
 }
 

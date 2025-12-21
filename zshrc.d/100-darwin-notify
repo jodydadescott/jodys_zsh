@@ -5,5 +5,10 @@
 ################################################################################
 
 [[ "$TERM_PROGRAM" == "iTerm.app" ]] && {
-  antidote load ${ZSH_PROFILE}/plugins/zsh_notify
+  [ -f "${HOME}/.zsh_plugins/zsh_notify.zsh" ] && {
+    source "${HOME}/.zsh_plugins/zsh_notify.zsh"
+  } || {
+    err "WARNING: ${HOME}/.zsh_plugins/zsh_notify.zsh not found. Run install.sh to generate it."
+    antidote load ${ZSH_PROFILE}/plugins/zsh_notify
+  }
 } ||:
