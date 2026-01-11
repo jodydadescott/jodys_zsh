@@ -14,3 +14,5 @@ function a() {
 }
 
 alias '?a'='noglob _crush_shell_suggest'
+
+alias crush='crush --yolo'

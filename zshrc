@@ -1,3 +1,6 @@
+PATH=/bin:/usr/bin:/usr/sbin:/sbin
+export PATH
+
 err() { echo "$@" 1>&2; }
 
 [[ "$ZSH_PROFILE" ]] || {
@@ -17,16 +20,17 @@ function addpath() {
   for p in $@; do
     _addpath "$p"
   done
+  export PATH
 }
 
 function _addpath() {
-  echo -e "${TMP_PATH//:/"\n"}" | while read p ; do
+  echo -e "${PATH//:/"\n"}" | while read p ; do
   [[ "$p" == "$1" ]] && {
     err-debug "ignoring duplicate request to add path $p";
     return 0
   } ||:
   done
-  [ -n "$TMP_PATH" ] && { TMP_PATH+=":$1"; } || { TMP_PATH="$1"; }
+  [ -n "$PATH" ] && { PATH+=":$1"; } || { PATH="$1"; }
   return 0
 }
 
@@ -66,7 +70,6 @@ bindkey '^[[B' history-substring-search-down
 bindkey '^[[3~' delete-char
 bindkey '^[3;5~' delete-char
 
-PATH=/bin:/usr/bin
 
 source ${HOME}/.antidote/antidote.zsh
 [ -f "${HOME}/.zsh_plugins/common.zsh" ] && {
@@ -104,11 +107,7 @@ function load_zshrcd() {
   done
 }
 
-unset TMP_PATH
 load_zshrcd
-addpath /bin /usr/bin
-export PATH="$TMP_PATH"
-unset TMP_PATH
 
 [ -f "$HOME/.zdebug" ] && {
   err "debug is enabled, use debug-disable to disable"

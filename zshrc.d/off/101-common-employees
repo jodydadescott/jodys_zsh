@@ -1,0 +1,37 @@
+#!/bin/zsh
+
+V_EMPLOYEESS=(homer marge bart lisa)
+
+function add_vemployee() {
+  tmux has-session -t "$1" > /dev/null 2>&1 && {
+    err-debug "tmux session $1 already exist"
+    } || {
+      err-debug "creating tmux session $1"
+      tmux new-session -d -s "$1"
+    }
+}
+
+function remove_vemployee() {
+  tmux has-session -t "$1" > /dev/null 2>&1 && {
+    err-debug "killing tmux session $1"
+    tmux kill-session -t "$1"
+  } || {
+    err-debug "tmux session $1 does not exist"
+  }
+}
+
+function add_vemployees() {
+  for employee in "${V_EMPLOYEESS[@]}"; do
+    add_vemployee "$employee"
+  done
+}
+
+function remove_vemployees() {
+  for employee in "${V_EMPLOYEESS[@]}"; do
+    remove_vemployee "$employee"
+  done
+}
+
+[ -n "$TMUX" ] && {
+  badge "$(tmux display-message -p -t "$TMUX_PANE" '#S')"
+} ||:
