@@ -1,7 +1,7 @@
 #!/bin/zsh
 ################################################################################
 # AWS configuration and utilities
-# Provides AWS profile management and eksctl completion
+# Provides AWS profile management and AWS CLI/eksctl completion
 ################################################################################
 
 function aws-set-profile() {
@@ -14,7 +14,37 @@ function aws-set-profile() {
   err "AWS Profile set to $AWS_PROFILE"
 }
 
-# Load eksctl completion if available
-if command -v eksctl &>/dev/null; then
-  source <(eksctl completion zsh)
+export AWS_PAGER=""
+
+# Generate AWS CLI completion
+if command -v aws &>/dev/null || [[ -n "${TMP_PATH}" ]] && PATH="${TMP_PATH}:${PATH}" command -v aws &>/dev/null; then
+  mkdir -p "${HOME}/.zsh/completions"
+  local aws_completion="${HOME}/.zsh/completions/_aws"
+  local aws_bin=$(PATH="${TMP_PATH}:${PATH}" command -v aws 2>/dev/null)
+  if [[ -n "$aws_bin" ]] && { [[ ! -f "$aws_completion" ]] || [[ "$aws_bin" -nt "$aws_completion" ]]; }; then
+    cat > "$aws_completion" << 'EOF'
+#compdef aws
+_aws() {
+  local -a args
+  local cmd="${words[*]}"
+  if [[ -n "$cmd" ]]; then
+    args=(${(f)"$(COMP_LINE="$cmd" COMP_POINT=${#cmd} aws_completer 2>/dev/null)"})
+  fi
+  _describe 'aws' args
+}
+_aws "$@"
+EOF
+    rm -f ~/.zcompdump 2>/dev/null
+  fi
+fi
+
+# Generate eksctl completion
+if command -v eksctl &>/dev/null || [[ -n "${TMP_PATH}" ]] && PATH="${TMP_PATH}:${PATH}" command -v eksctl &>/dev/null; then
+  mkdir -p "${HOME}/.zsh/completions"
+  local eksctl_completion="${HOME}/.zsh/completions/_eksctl"
+  local eksctl_bin=$(PATH="${TMP_PATH}:${PATH}" command -v eksctl 2>/dev/null)
+  if [[ -n "$eksctl_bin" ]] && { [[ ! -f "$eksctl_completion" ]] || [[ "$eksctl_bin" -nt "$eksctl_completion" ]]; }; then
+    PATH="${TMP_PATH}:${PATH}" "$eksctl_bin" completion zsh > "$eksctl_completion" 2>/dev/null
+    [[ -s "$eksctl_completion" ]] && rm -f ~/.zcompdump 2>/dev/null
+  fi
 fi

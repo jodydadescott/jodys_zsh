@@ -1,9 +1,0 @@
-#!/bin/zsh
-################################################################################
-# AWS Darwin/macOS configuration
-# Loads AWS CLI completion and disables pager
-################################################################################
-
-[ -f /opt/homebrew/share/zsh/site-functions/aws_zsh_completer.sh ] && source /opt/homebrew/share/zsh/site-functions/aws_zsh_completer.sh ||:
-
-export AWS_PAGER=""

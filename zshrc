@@ -1,4 +1,8 @@
-PATH=/bin:/usr/bin:/usr/sbin:/sbin
+# We initially set the BASE_PATH. When addpath is called we will append the
+# entry to PATH and TMP_PATH. Finally we will append the BASE_PATH to TMP_PATH
+# and replace PATH with TMP_PATH.
+BASE_PATH=/bin:/usr/bin:/usr/sbin:/sbin
+PATH="$BASE_PATH"
 export PATH
 
 err() { echo "$@" 1>&2; }
@@ -23,6 +27,8 @@ function addpath() {
   export PATH
 }
 
+TMP_PATH=""
+
 function _addpath() {
   echo -e "${PATH//:/"\n"}" | while read p ; do
   [[ "$p" == "$1" ]] && {
@@ -31,20 +37,14 @@ function _addpath() {
   } ||:
   done
   [ -n "$PATH" ] && { PATH+=":$1"; } || { PATH="$1"; }
+  [ -n "$TMP_PATH" ] && { TMP_PATH+=":$1"; } || { TMP_PATH="$1"; }
   return 0
 }
 
 # Add custom completions directory to fpath
 fpath=(${HOME}/.zsh/completions $fpath)
 
-autoload -Uz compinit
-typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
-if [ $(date +'%j') != $updated_at ]; then
-  compinit -i
-else
-  compinit -C -i
-fi
-zmodload -i zsh/complist
+# Note: compinit is called AFTER modules load so fpath additions are included
 
 # Options
 setopt extended_glob # enable extended glob patterns like (#i)
@@ -108,6 +108,20 @@ function load_zshrcd() {
 }
 
 load_zshrcd
+
+# Initialize completion system AFTER modules load (so fpath additions are included)
+autoload -Uz compinit
+typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
+if [ $(date +'%j') != $updated_at ]; then
+  compinit -i
+else
+  compinit -C -i
+fi
+zmodload -i zsh/complist
+
+PATH="$TMP_PATH:$BASE_PATH"
+export PATH
+unset TMP_PATH
 
 [ -f "$HOME/.zdebug" ] && {
   err "debug is enabled, use debug-disable to disable"

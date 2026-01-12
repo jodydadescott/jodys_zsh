@@ -1,0 +1,21 @@
+#!/bin/zsh
+################################################################################
+# Helm configuration
+# Loads helm completion for package management in Kubernetes
+################################################################################
+
+# Generate helm completion file if helm is available
+# Check both PATH and TMP_PATH since PATH hasn't been fully set yet during loading
+if command -v helm &>/dev/null || [[ -n "${TMP_PATH}" ]] && PATH="${TMP_PATH}:${PATH}" command -v helm &>/dev/null; then
+  # Ensure completion directory exists
+  mkdir -p "${HOME}/.zsh/completions"
+  
+  # Generate completion file if it doesn't exist or helm was updated
+  helm_completion="${HOME}/.zsh/completions/_helm"
+  helm_bin=$(PATH="${TMP_PATH}:${PATH}" command -v helm 2>/dev/null)
+  if [[ -n "$helm_bin" ]] && { [[ ! -f "$helm_completion" ]] || [[ "$helm_bin" -nt "$helm_completion" ]]; }; then
+    PATH="${TMP_PATH}:${PATH}" helm completion zsh > "$helm_completion" 2>/dev/null
+    # Invalidate completion cache to pick up new completion
+    rm -f ~/.zcompdump* ~/.cache/zsh/compdump* 2>/dev/null
+  fi
+fi

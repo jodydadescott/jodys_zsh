@@ -1,18 +1,35 @@
 #!/bin/zsh
+################################################################################
+# Crush AI CLI configuration
+# Provides crush completion and helper functions
+################################################################################
 
 if [ -z "$CRUSH_MODEL" ]; then
   export CRUSH_MODEL=claude-sonnet-4.5
 fi
 
+# Generate crush completion BEFORE aliasing
+if command -v crush &>/dev/null || [[ -n "${TMP_PATH}" ]] && PATH="${TMP_PATH}:${PATH}" command -v crush &>/dev/null; then
+  mkdir -p "${HOME}/.zsh/completions"
+  local crush_completion="${HOME}/.zsh/completions/_crush"
+  local crush_bin=$(PATH="${TMP_PATH}:${PATH}" command -v crush 2>/dev/null)
+  if [[ -n "$crush_bin" ]] && { [[ ! -f "$crush_completion" ]] || [[ "$crush_bin" -nt "$crush_completion" ]]; }; then
+    # Use full path to avoid alias interference
+    "$crush_bin" completion zsh > "$crush_completion" 2>/dev/null
+    [[ -s "$crush_completion" ]] && rm -f ~/.zcompdump 2>/dev/null
+  fi
+fi
+
 function _crush_shell_suggest() {
-  crush run "this is a question about a command only; i am not asking you to do anything except answer the question $*"
+  command crush run "this is a question about a command only; i am not asking you to do anything except answer the question $*"
 }
 
 function a() {
   setopt localoptions noglob
-  crush run "PRIMARY TASK: $*. If there is a problem, fix it. After completing the primary task, confirm completion. BACKGROUND TASKS: $LLM_BG_TASK"
+  command crush run "PRIMARY TASK: $*. If there is a problem, fix it. After completing the primary task, confirm completion. BACKGROUND TASKS: $LLM_BG_TASK"
 }
 
 alias '?a'='noglob _crush_shell_suggest'
 
-alias crush='crush --yolo'
+# Alias AFTER completion generation
+# alias crush='crush --yolo'

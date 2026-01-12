@@ -1,7 +1,24 @@
 #!/bin/zsh
 ################################################################################
-# NPM global package path
-# Adds NPM global bin directory to PATH
+# NPM configuration
+# Adds NPM global bin directory to PATH and generates npm completion
 ################################################################################
 
 addpath $HOME/.npm-global/bin
+
+# Generate npm completion (npm only provides bash completion, we adapt it)
+if command -v npm &>/dev/null || [[ -n "${TMP_PATH}" ]] && PATH="${TMP_PATH}:${PATH}" command -v npm &>/dev/null; then
+  mkdir -p "${HOME}/.zsh/completions"
+  local npm_completion="${HOME}/.zsh/completions/_npm"
+  local npm_bin=$(PATH="${TMP_PATH}:${PATH}" command -v npm 2>/dev/null)
+  if [[ -n "$npm_bin" ]] && { [[ ! -f "$npm_completion" ]] || [[ "$npm_bin" -nt "$npm_completion" ]]; }; then
+    # npm completion generates bash code, we need to source it with bash compatibility
+    cat > "$npm_completion" << 'EOF'
+#compdef npm
+# npm zsh completion adapter
+autoload -U +X bashcompinit && bashcompinit
+source <(npm completion)
+EOF
+    rm -f ~/.zcompdump 2>/dev/null
+  fi
+fi

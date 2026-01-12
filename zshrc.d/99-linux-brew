@@ -1,17 +1,17 @@
 #!/bin/zsh
 ################################################################################
-# Homebrew configuration for Darwin/macOS
-# Detects and adds Homebrew paths (Apple Silicon vs Intel)
+# Homebrew configuration for Linux
+# Detects and adds Linuxbrew/Homebrew paths
 # Generates brew completion
 ################################################################################
 
-# Detect Homebrew location (Apple Silicon vs Intel)
-if [ -d /opt/homebrew ]; then
-  addpath /opt/homebrew/sbin /opt/homebrew/bin
-  HOMEBREW_PREFIX="/opt/homebrew"
-elif [ -d /usr/local/Homebrew ]; then
-  addpath /usr/local/sbin /usr/local/bin
-  HOMEBREW_PREFIX="/usr/local"
+# Detect Homebrew/Linuxbrew location on Linux
+if [ -d /home/linuxbrew/.linuxbrew ]; then
+  addpath /home/linuxbrew/.linuxbrew/sbin /home/linuxbrew/.linuxbrew/bin
+  HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+elif [ -d $HOME/.linuxbrew ]; then
+  addpath $HOME/.linuxbrew/sbin $HOME/.linuxbrew/bin
+  HOMEBREW_PREFIX="$HOME/.linuxbrew"
 fi
 
 # Homebrew manages its own completions via FPATH

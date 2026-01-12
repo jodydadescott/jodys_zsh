@@ -1,10 +1,21 @@
 #!/bin/zsh
 ################################################################################
 # Terraform configuration
-# Loads terraform shell completion if available
+# Generates terraform completion via built-in autocomplete
 ################################################################################
 
-# Load terraform completion if available
-if command -v terraform &>/dev/null; then
-  complete -o nospace -C terraform terraform
+if command -v terraform &>/dev/null || [[ -n "${TMP_PATH}" ]] && PATH="${TMP_PATH}:${PATH}" command -v terraform &>/dev/null; then
+  mkdir -p "${HOME}/.zsh/completions"
+  local terraform_completion="${HOME}/.zsh/completions/_terraform"
+  local terraform_bin=$(PATH="${TMP_PATH}:${PATH}" command -v terraform 2>/dev/null)
+  if [[ -n "$terraform_bin" ]] && { [[ ! -f "$terraform_completion" ]] || [[ "$terraform_bin" -nt "$terraform_completion" ]]; }; then
+    # Terraform uses bash-style completion via -install-autocomplete
+    # We'll use the complete -C method which works for zsh
+    cat > "$terraform_completion" << 'EOF'
+#compdef terraform
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C terraform terraform
+EOF
+    rm -f ~/.zcompdump* ~/.cache/zsh/compdump* 2>/dev/null
+  fi
 fi
