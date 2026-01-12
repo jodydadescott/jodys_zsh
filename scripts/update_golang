@@ -1,0 +1,58 @@
+#!/bin/bash
+#shellcheck disable=SC2015
+
+GO_BASE="https://go.dev"
+GO_DOWNLOAD="$GO_BASE/dl/"
+
+OS=$(uname -o | tr '[:upper:]' '[:lower:]')
+ARCH=$(uname -m)
+TARBALL="$OS-$ARCH.tar.gz"
+
+tmp=""
+
+function main() {
+
+  [[ -z "$GOROOT" ]] && { err "GOROOT is required"; return 2; }
+
+  lversion=$(get_local_version)
+  rversion=$(curl -s "$GO_DOWNLOAD" | grep "$TARBALL" | head -1 | awk -Fhref= '{print $2}' | awk -F\" '{print $2}' | awk -F/ '{print $3}' | awk "-F.$OS" '{print $1}')
+  [[ -z "$rversion" ]] && { err "failed to get remote version"; return 2; }
+
+  [ "$lversion" == "$rversion" ] && {
+    err "GOLANG is at latest version $lversion"
+    return 0
+  }
+
+  [[ -z "$lversion" ]] && err "Installing GOLANG $rversion" || err "Upgrading from $lversion to $rversion"
+
+  tmp=$(mktemp -d -t tmp)
+  trap cleanup EXIT
+  err "created tmp $tmp"
+  cd "$tmp" || { err "failed to change directory to $tmp"; return 2; }
+  curl -L -o go.tar.gz "$GO_DOWNLOAD/$rversion.$TARBALL"
+  tar xf go.tar.gz
+  rm -rf "$GOROOT"
+  mv go "$GOROOT"
+
+  lversion=$(get_local_version)
+  [[ -z "$lversion" ]] && { err "failed to get local version"; return 2; }
+  [ "$lversion" == "$rversion" ] && { 
+    err "GOLANG updated to $lversion"
+    return 0
+  } ||:
+
+  err "Failed to upgrage GOLANG to $rversion"
+  return 2
+}
+
+function get_local_version() { [ -f "$GOROOT/bin/go" ] && { "$GOROOT"/bin/go version | awk '{print $3}'; }; }
+
+function cleanup {
+  [ -z "$tmp" ] && return 0
+  err "removing $tmp"
+  rm -rf "$tmp"
+}
+
+function err() { echo "$@" 1>&2; }
+
+main "$@"
