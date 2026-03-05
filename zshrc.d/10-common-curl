@@ -1,0 +1,12 @@
+#!/bin/zsh
+################################################################################
+# Homebrew curl path configuration
+# Adds Homebrew curl to PATH before system curl
+################################################################################
+
+# Detect Homebrew location (Apple Silicon vs Intel)
+if [ -d /opt/homebrew/opt/curl/bin ]; then
+  addpath /opt/homebrew/opt/curl/bin
+elif [ -d /usr/local/opt/curl/bin ]; then
+  addpath /usr/local/opt/curl/bin
+fi
