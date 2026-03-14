@@ -4,6 +4,9 @@
 # Configures and loads the Spaceship ZSH prompt theme
 ################################################################################
 
+# Only run in zsh
+[ -z "$ZSH_VERSION" ] && return 0
+
 SPACESHIP_PROMPT_ORDER=(
   # time           # Time stamps section
   user           # Username section

@@ -1,0 +1,4 @@
+# fzf - fuzzy finder (ctrl-r history, ctrl-t files, alt-c cd)
+[ -x /opt/homebrew/bin/fzf ] && {
+  source <(/opt/homebrew/bin/fzf --zsh)
+} ||:

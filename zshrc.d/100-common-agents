@@ -1,0 +1,16 @@
+#!/bin/zsh
+################################################################################
+
+function agent() {
+  badge "$1"
+  ( cd ~/agents && claude --dangerously-skip-permissions --resume "$1" )
+  badge ""
+}
+
+alias buddy="agent Buddy"
+alias bailey="agent Bailey"
+alias bonnie="agent Bonnie"
+alias snoopy="agent Snoopy"
+alias woodstock="agent Woodstock"
+
+##############################################################################

@@ -32,6 +32,7 @@ function main() {
   curl -L -o go.tar.gz "$GO_DOWNLOAD/$rversion.$TARBALL"
   tar xf go.tar.gz
   rm -rf "$GOROOT"
+  mkdir -p "$(dirname "$GOROOT")"
   mv go "$GOROOT"
 
   lversion=$(get_local_version)

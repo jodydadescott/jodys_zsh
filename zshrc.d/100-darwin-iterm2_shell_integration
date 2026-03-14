@@ -4,6 +4,9 @@
 # Enables iTerm2 shell integration features for enhanced terminal experience
 ################################################################################
 
+# Only run in zsh
+[ -z "$ZSH_VERSION" ] && return 0
+
 if [[ -o interactive ]]; then
   if [ "$TERM" != "screen" -a "$ITERM_SHELL_INTEGRATION_INSTALLED" = "" ]; then
     ITERM_SHELL_INTEGRATION_INSTALLED=Yes

@@ -4,17 +4,9 @@
 # Sets up Go paths and provides go mod tidy utility
 ################################################################################
 
-[ -z "$GOPATH" ] && export GOPATH=$HOME/workspace
-[ -z "$GOROOT" ] && export GOROOT=$HOME/.go
+[ -z "$GOPATH" ] && export GOPATH=$HOME/.local/go/path
+[ -z "$GOROOT" ] && export GOROOT=$HOME/.local/go/root
 
 # Add Go paths if GOROOT exists
 [ -d "$GOROOT" ] && addpath $GOROOT/bin
 [ -d "$GOPATH/bin" ] && addpath $GOPATH/bin
-
-function gotidy() {
-  command -v go &>/dev/null || {
-    err "go command not found"
-    return 1
-  }
-  find ./ -name go.mod -exec realpath {} ';' | awk '{print "dirname "$0}' | zsh | awk '{print "cd "$0" && go mod tidy -e"}' | zsh -x
-}

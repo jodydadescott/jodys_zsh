@@ -1,0 +1,27 @@
+#!/bin/zsh
+################################################################################
+# Google Cloud SDK configuration (Linux specific)
+# Adds gcloud to PATH and loads completion if installed
+################################################################################
+
+# Add gcloud to PATH if installed
+if [ -d /usr/local/google-cloud-sdk ]; then
+  addpath /usr/local/google-cloud-sdk/bin
+fi
+
+# Copy and source gcloud completion
+if [ -d /usr/local/google-cloud-sdk ]; then
+  mkdir -p "${HOME}/.zsh/completions"
+  local gcloud_path_inc="/usr/local/google-cloud-sdk/path.zsh.inc"
+  local gcloud_completion_dest="${HOME}/.zsh/completions/_gcloud"
+
+  # Copy path.zsh.inc if it exists and is newer
+  if [[ -f "$gcloud_path_inc" ]] && { [[ ! -f "$gcloud_completion_dest" ]] || [[ "$gcloud_path_inc" -nt "$gcloud_completion_dest" ]]; }; then
+    cp "$gcloud_path_inc" "$gcloud_completion_dest" 2>/dev/null
+  fi
+
+  # Source the completion file
+  if [[ -f "$gcloud_completion_dest" ]]; then
+    source "$gcloud_completion_dest"
+  fi
+fi

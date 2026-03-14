@@ -1,0 +1,6 @@
+# direnv - auto-load .envrc per directory
+[ -x /opt/homebrew/bin/direnv ] && {
+  eval "$(/opt/homebrew/bin/direnv hook zsh)"
+} ||:
+
+# alias cd=z is set after zoxide init in zshrc

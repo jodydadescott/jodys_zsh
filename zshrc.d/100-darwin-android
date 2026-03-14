@@ -1,0 +1,8 @@
+#!/bin/zsh
+################################################################################
+# Android SDK
+################################################################################
+
+export ANDROID_HOME="$HOME/.local/android"
+addpath "$ANDROID_HOME/cmdline-tools/latest/bin"
+addpath "$ANDROID_HOME/platform-tools"

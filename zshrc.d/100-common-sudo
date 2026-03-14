@@ -4,6 +4,9 @@
 # Binds Option+S to insert sudo at the beginning of the current command
 ################################################################################
 
+# Only run in zsh
+[ -z "$ZSH_VERSION" ] && return 0
+
 # Insert sudo with control + s
 insert_sudo () { zle beginning-of-line; zle -U "sudo "; }
 zle -N insert-sudo insert_sudo

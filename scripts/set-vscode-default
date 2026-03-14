@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+# Register file extensions to open with VS Code by default.
+# Requires 'duti' (brew install duti).
+
+if ! command -v duti &>/dev/null; then
+  echo "Error: duti is not installed. Run: brew install duti" >&2
+  exit 1
+fi
+
+bundle="com.microsoft.VSCode"
+
+extensions=(
+  # Go
+  .go .mod .sum
+  # Java / JVM
+  .java .jar .gradle .kt .kts .scala .groovy
+  # Rust
+  .rs .toml
+  # C / C++
+  .c .h .cpp .cc .cxx .hpp .hxx
+  # C#
+  .cs .csproj .sln
+  # Python
+  .py .pyi .pyx
+  # JavaScript / TypeScript
+  .js .jsx .ts .tsx .mjs .cjs
+  # Web
+  .html .htm .css .scss .sass .less .svg
+  # Ruby
+  .rb .erb .gemspec
+  # PHP
+  .php
+  # Swift / Objective-C
+  .swift .m .mm
+  # Shell
+  .sh .bash .zsh .fish
+  # Protobuf / gRPC
+  .proto
+  # Data / Config
+  .json .yaml .yml .xml .csv .tsv .ini .cfg .conf .env
+  # Documentation
+  .md .mdx .rst .txt .tex .adoc
+  # Haskell
+  .hs .lhs .cabal
+  # Elixir / Erlang
+  .ex .exs .erl .hrl
+  # Lua
+  .lua
+  # Perl
+  .pl .pm
+  # R
+  .r .R
+  # Dart / Flutter
+  .dart
+  # Zig
+  .zig
+  # Nix
+  .nix
+  # SQL
+  .sql
+  # Docker / DevOps
+  .dockerfile
+  # Makefile variants
+  .mk .cmake
+  # Diff / Patch
+  .diff .patch
+  # Vim
+  .vim
+)
+
+count=0
+for ext in "${extensions[@]}"; do
+  duti -s "$bundle" "$ext" all 2>/dev/null && ((count++))
+done
+
+echo "Registered $count extensions to open with VS Code"

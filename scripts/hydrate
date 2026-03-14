@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Hydrate files from cloud storage by running 'file' on each
+
+dir="${1:-.}"
+
+if [[ ! -d "$dir" ]]; then
+  echo "Error: '$dir' is not a directory" >&2
+  exit 1
+fi
+
+find "$dir" -type f -exec file {} \; > /dev/null
+
+echo "Hydrated all files in $dir"

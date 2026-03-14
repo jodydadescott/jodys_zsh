@@ -1,0 +1,19 @@
+#!/bin/zsh
+################################################################################
+# Claude CLI configuration and utilities
+# Provides Claude CLI completion and token sourcing
+################################################################################
+
+# Source Claude token if it exists
+[[ -f "${HOME}/.ssh/claude.token" ]] && source "${HOME}/.ssh/claude.token"
+
+# Generate Claude CLI completion
+if command -v claude &>/dev/null || [[ -n "${TMP_PATH}" ]] && PATH="${TMP_PATH}:${PATH}" command -v claude &>/dev/null; then
+  mkdir -p "${HOME}/.zsh/completions"
+  local claude_completion="${HOME}/.zsh/completions/_claude"
+  local claude_bin=$(PATH="${TMP_PATH}:${PATH}" command -v claude 2>/dev/null)
+  if [[ -n "$claude_bin" ]] && { [[ ! -f "$claude_completion" ]] || [[ "$claude_bin" -nt "$claude_completion" ]]; }; then
+    PATH="${TMP_PATH}:${PATH}" "$claude_bin" completion zsh > "$claude_completion" 2>/dev/null
+    [[ -s "$claude_completion" ]] && rm -f ~/.zcompdump 2>/dev/null
+  fi
+fi

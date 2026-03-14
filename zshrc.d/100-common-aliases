@@ -4,8 +4,7 @@
 # Defines SSH shortcuts and Docker command aliases
 ################################################################################
 
-alias daisy="ssh daisy"
-alias poppy="ssh poppy"
-alias snoopy="ssh snoopy"
+# alias daisy="ssh daisy"
+# alias poppy="ssh poppy"
 
-alias asterisk="docker exec -it asterisk asterisk -rvvvvv"
+# alias asterisk="docker exec -it asterisk asterisk -rvvvvv"
