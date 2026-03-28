@@ -7,6 +7,13 @@
 export DOCKER_RAW_FILE="${HOME}/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw"
 export DOCKER_MAX_FILE_SIZE=13000 # Megabytes
 
+[ -f "/Applications/Docker.app/Contents/Resources/bin/kubectl" ] && {
+  mv "/Applications/Docker.app/Contents/Resources/bin/kubectl" \
+    "/Applications/Docker.app/Contents/Resources/bin/docker.kubectl"
+}||:
+
+addpath "/Applications/Docker.app/Contents/Resources/bin"
+
 function docker_raw_file_cleanup() {
   [ -f "$DOCKER_RAW_FILE" ] || return 0
   local file_size

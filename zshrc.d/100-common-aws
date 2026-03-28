@@ -38,13 +38,4 @@ EOF
   fi
 fi
 
-# Generate eksctl completion
-if command -v eksctl &>/dev/null || [[ -n "${TMP_PATH}" ]] && PATH="${TMP_PATH}:${PATH}" command -v eksctl &>/dev/null; then
-  mkdir -p "${HOME}/.zsh/completions"
-  local eksctl_completion="${HOME}/.zsh/completions/_eksctl"
-  local eksctl_bin=$(PATH="${TMP_PATH}:${PATH}" command -v eksctl 2>/dev/null)
-  if [[ -n "$eksctl_bin" ]] && { [[ ! -f "$eksctl_completion" ]] || [[ "$eksctl_bin" -nt "$eksctl_completion" ]]; }; then
-    PATH="${TMP_PATH}:${PATH}" "$eksctl_bin" completion zsh > "$eksctl_completion" 2>/dev/null
-    [[ -s "$eksctl_completion" ]] && rm -f ~/.zcompdump 2>/dev/null
-  fi
-fi
+# eksctl completion managed by gen-completions
