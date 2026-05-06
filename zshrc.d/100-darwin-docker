@@ -35,3 +35,7 @@ function docker_container_cleanup() {
 }
 
 function docker_start() { /Applications/Docker.app/Contents/MacOS/Docker & }
+
+function dockerps() {
+  docker ps --format "table {{.Names}}\t{{.Status}}" --filter "name=^docker-"
+}

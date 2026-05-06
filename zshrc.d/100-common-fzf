@@ -1,4 +1,9 @@
-# fzf - fuzzy finder (ctrl-r history, ctrl-t files, alt-c cd)
+#!/bin/zsh
+################################################################################
+# fzf configuration
+# Loads fzf keybindings (ctrl-r history, ctrl-t files, alt-c cd)
+################################################################################
+
 [ -x /opt/homebrew/bin/fzf ] && {
   source <(/opt/homebrew/bin/fzf --zsh)
 } ||:

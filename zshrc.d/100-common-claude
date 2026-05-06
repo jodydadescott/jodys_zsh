@@ -4,9 +4,6 @@
 # Provides Claude CLI completion and token sourcing
 ################################################################################
 
-# Source Claude token if it exists
-[[ -f "${HOME}/.ssh/claude.token" ]] && source "${HOME}/.ssh/claude.token"
-
 # Generate Claude CLI completion
 if command -v claude &>/dev/null || [[ -n "${TMP_PATH}" ]] && PATH="${TMP_PATH}:${PATH}" command -v claude &>/dev/null; then
   mkdir -p "${HOME}/.zsh/completions"
@@ -17,3 +14,5 @@ if command -v claude &>/dev/null || [[ -n "${TMP_PATH}" ]] && PATH="${TMP_PATH}:
     [[ -s "$claude_completion" ]] && rm -f ~/.zcompdump 2>/dev/null
   fi
 fi
+
+alias claude-upgrade="curl -fsSL https://claude.ai/install.sh | bash"

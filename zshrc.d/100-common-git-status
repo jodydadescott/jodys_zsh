@@ -1,0 +1,35 @@
+#!/bin/zsh
+################################################################################
+# Git status utility
+# Recursively finds git repos and reports any with uncommitted changes
+################################################################################
+
+function git.status() {
+  local search_dir="${1:-.}"
+  zsh -f -c '
+    typeset total_width=60
+    typeset -A seen
+
+    while IFS= read -r gitdir; do
+      repo_dir="${gitdir%/.git}"
+      real_dir=$(realpath "$repo_dir" 2>/dev/null) || real_dir="$repo_dir"
+
+      [[ -n "${seen[$real_dir]}" ]] && continue
+      seen[$real_dir]=1
+
+      repo_name="${repo_dir##*/}"
+      porcelain=$(git -C "$repo_dir" status --porcelain 2>/dev/null)
+
+      [[ -z "$porcelain" ]] && continue
+
+      prefix="### ${repo_name} "
+      suffix_len=$(( total_width - ${#prefix} ))
+      suffix=""
+      (( suffix_len > 0 )) && suffix=$(printf "#%.0s" $(seq 1 $suffix_len))
+
+      print "${prefix}${suffix}"
+      git -C "$repo_dir" status
+      print ""
+    done < <(find "$1" -type d -name ".git" -prune 2>/dev/null | sort)
+  ' -- "$search_dir"
+}

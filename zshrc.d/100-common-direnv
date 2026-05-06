@@ -1,4 +1,9 @@
-# direnv - auto-load .envrc per directory
+#!/bin/zsh
+################################################################################
+# direnv configuration
+# Auto-loads .envrc files per directory using direnv hook
+################################################################################
+
 [ -x /opt/homebrew/bin/direnv ] && {
   eval "$(/opt/homebrew/bin/direnv hook zsh)"
 } ||:

@@ -1,4 +1,8 @@
 #!/bin/zsh
+################################################################################
+# LLM session configuration
+# Sets up per-session state directory and background task instructions for AI agents
+################################################################################
 
 if [ -z "$LLM_SESSION_DIR" ]; then
   export LLM_SESSION_DIR="$HOME/.llm/state/$RANDOM"

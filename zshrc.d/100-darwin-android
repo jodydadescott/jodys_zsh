@@ -1,6 +1,7 @@
 #!/bin/zsh
 ################################################################################
-# Android SDK
+# Android SDK configuration for Darwin/macOS
+# Sets ANDROID_HOME and adds command-line tools and platform-tools to PATH
 ################################################################################
 
 export ANDROID_HOME="$HOME/.local/android"

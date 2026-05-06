@@ -1,5 +1,7 @@
+#!/bin/zsh
 ################################################################################
-# ZSHRC settings for Darwin/OSX
+# Darwin/macOS system settings
+# Configures macOS-specific shell behavior, color output, and COPYFILE_DISABLE
 ################################################################################
 
 [[ "$(uname)" == "Darwin" ]] || return 0
@@ -20,5 +22,3 @@ export COPYFILE_DISABLE=1
 
 # Color
 alias ls='ls -G'
-
-################################################################################

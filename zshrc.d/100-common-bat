@@ -1,6 +1,7 @@
 #!/bin/zsh
 ################################################################################
-# Settings for bat
+# bat configuration
+# Disables pager so bat behaves like cat with syntax highlighting
 ################################################################################
 
 # Disable pager so bat acts like cat
